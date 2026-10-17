@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html lang="en"> <!-- LANGUAGE = ENGLISH -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello World!</title> <!-- TITLE ON BAR -->
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #1d2330;
+        --muted: #5b6475;
+        --line: #dde1e8;
+        --accent: #2456c9;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #14171f;
+          --text: #e8ebf2;
+          --muted: #9aa3b5;
+          --line: #2b3040;
+          --accent: #7aa2ff;
+        }
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+      }
+      a { color: var(--accent); }
+      a:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+      .wrap {
+        max-width: 44rem;
+        margin: 0 auto;
+        padding: 3rem 1.25rem 4rem;
+      }
+      header { padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+      h1 { font-size: 2.5rem; line-height: 1.15; margin: 0 0 0.5rem; }
+      .lead { color: var(--muted); margin: 0; font-size: 1.1rem; }
+      nav { margin: 1.5rem 0 0.5rem; }
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 1.1rem;
+      }
+      nav a { text-decoration: none; }
+      nav a:hover { text-decoration: underline; }
+      section { padding: 1.75rem 0 0; }
+      h2 { font-size: 1.35rem; margin: 0 0 0.5rem; }
+      p { margin: 0 0 0.75rem; }
+      ul.members { margin: 0; padding-left: 1.25rem; }
+      .placeholder { color: var(--muted); }
+      footer {
+        margin-top: 3rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <header id="top">
+        <h1>Hello World!</h1>
+        <p class="lead">This page is up and running. Content will be added soon.</p>
+        <nav aria-label="Sections">
+          <ul>
+            <li><a href="#members">Group Members</a></li>
+            <li><a href="#problem">Problem</a></li>
+            <li><a href="#dataset">Dataset</a></li>
+            <li><a href="#methods">Methods</a></li>
+            <li><a href="#setup">Experimental Setup</a></li>
+            <li><a href="#results">Results</a></li>
+            <li><a href="#discussion">Discussion</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+            <li><a href="#references">References</a></li>
+            <li><a href="#links">Links</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main>
+        <section id="members">
+          <h2>Group Members</h2>
+          <ul class="members placeholder">
+            <li>Alvis, Franchesca Niña Marie M.</li>
+            <li>Belonio, Yvonne Mari C.</li>
+            <li>Bulatao, Nestor Victus T.</li>
+            <li>Perlas, Mikhail Adrian Jude S.</li>
+          </ul>
+        </section>
+
+        <section id="problem">
+          <h2>Problem Statement and Motivation</h2>
+          <p class="placeholder">Coming soon.</p>
+        </section>
+
+        <section id="dataset">
+          <h2>Dataset</h2>
+          <p class="placeholder">Coming soon.</p>
+        </section>
+
+        <section id="methods">
+          <h2>Methods</h2>
+          <p class="placeholder">Coming soon.</p>
+        </section>
+
+        <section id="setup">
+          <h2>Experimental Setup</h2>
+          <p class="placeholder">Coming soon.</p>
+        </section>
+
+        <section id="results">
+          <h2>Results</h2>
+          <p class="placeholder">Coming soon.</p>
+        </section>
+
+        <section id="discussion">
+          <h2>Discussion</h2>
+          <p class="placeholder">Coming soon.</p>
+        </section>
+
+        <section id="conclusion">
+          <h2>Conclusion</h2>
+          <p class="placeholder">Coming soon.</p>
+        </section>
+
+        <section id="references">
+          <h2>References</h2>
+          <p class="placeholder">Coming soon.</p>
+        </section>
+
+        <section id="links">
+          <h2>Repository and slides</h2>
+          <p class="placeholder">Coming soon.</p>
+        </section>
+      </main>
+
+      <footer>
+        <a href="#top">Back to top</a>
+      </footer>
+    </div>
+  </body>
+</html>
