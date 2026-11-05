@@ -26,6 +26,10 @@
   --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-heading: "Newsreader", Georgia, "Times New Roman", serif;
 
+  --series-1: #2f6b3a;     /* chart colors */
+  --series-2: #b7791f;
+  --series-3: #2b6f9e;
+
   color-scheme: light;     /* makes scrollbars and form controls match */
 }
 
@@ -42,6 +46,9 @@
   --hero-from: #1b2718;
   --hero-to: #11170f;
   --nav-bg: rgba(17, 23, 15, 0.88);
+  --series-1: #7fc98a;
+  --series-2: #e6b84a;
+  --series-3: #6cb4d9;
 
   color-scheme: dark;
 }
@@ -292,6 +299,58 @@ figure.diagram figcaption {
 .dg-out-t { fill: var(--on-accent); font: 700 14px var(--font); text-anchor: middle; }
 .dg-arrow { stroke: var(--muted); stroke-width: 1.5; fill: none; }
 .dg-head  { fill: var(--muted); }
+
+/* Results: variety tabs, tables, and charts */
+.tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
+.tab {
+  font: 600 0.9rem var(--font);
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+.tab:hover { border-color: var(--accent); }
+.tab.is-active { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+
+#results-root h3 { margin-top: 1.6rem; }
+#results-root h4 { margin: 1.25rem 0 0; font-size: 1rem; }
+.results-note { color: var(--muted); font-size: 0.9rem; }
+.results-table th, .results-table td { white-space: nowrap; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.results-table tr.best-row td { font-weight: 700; background: color-mix(in srgb, var(--accent) 12%, transparent); }
+details.values { margin: 0 0 1rem; }
+details.values summary { cursor: pointer; color: var(--muted); font-size: 0.9rem; }
+
+.chart { width: 100%; height: auto; display: block; }
+.ch-grid { stroke: var(--line); stroke-width: 1; }
+.ch-ylab { fill: var(--muted); font: 11px var(--font); text-anchor: end; }
+.ch-xlab { fill: var(--muted); font: 11px var(--font); text-anchor: middle; }
+.ch-xlab.rot { text-anchor: end; }
+.ch-title { fill: var(--muted); font: 600 11px var(--font); text-anchor: middle; }
+.s1 { --c: var(--series-1); }
+.s2 { --c: var(--series-2); }
+.s3 { --c: var(--series-3); }
+.ch-line { fill: none; stroke: var(--c); stroke-width: 2; }
+.ch-dot { fill: var(--c); }
+.ch-ring { fill: none; stroke: var(--c); stroke-width: 2; }
+.ch-bar { fill: var(--c); }
+.ch-val { fill: var(--text); font: 600 10px var(--font); text-anchor: middle; stroke: var(--bg); stroke-width: 3px; paint-order: stroke; }
+.ch-ref { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.ch-legend {
+  list-style: none;
+  margin: 0.75rem 0 0.25rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.1rem;
+  font-size: 0.9rem;
+}
+.ch-legend li { display: flex; align-items: center; gap: 0.4rem; margin: 0; text-align: left; }
+.ch-swatch { width: 0.8rem; height: 0.8rem; border-radius: 3px; background: var(--c); }
+.ch-swatch-ref { width: 1.2rem; height: 0; border-top: 2px dashed var(--muted); }
 
 /* 8. FOOTER -------------------------------------------------------------- */
 footer {

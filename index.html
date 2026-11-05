@@ -299,8 +299,9 @@
 
         <section id="results">
           <h2>Results</h2>
-          <!-- PLAN: test tables of all 27 configurations against the two baselines, validation curves, test comparison chart -->
-          <p class="placeholder">Coming soon.</p>
+          <p>Choose a rice variety. The tables and charts are drawn from <code>results/results.js</code>, which the methods write every time they run.</p>
+          <div class="tabs" id="variety-tabs" role="group" aria-label="Rice variety"></div>
+          <div id="results-root"><p class="placeholder">Loading results…</p></div>
         </section>
 
         <section id="discussion">
@@ -329,5 +330,9 @@
         <a href="#top">Back to top</a>
       </footer>
     </div>
+
+    <!-- RESULTS: results.js holds the numbers, script.js draws the tables and charts -->
+    <script src="results/results.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
