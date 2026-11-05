@@ -57,6 +57,13 @@ def load_dataset(filename):
 
     return cities
 
+# Returns True if the row has a value (not blank) in every one of the given columns
+def has_values(row, columns):
+    for column in columns:
+        if row[column].strip() == "": # Blank cell, the value was not reported
+            return False
+    return True
+
 # Builds one example for each city and month, returns a list of (t, feature vector, label)
 # Feature vector: [price now, price now - price last month, nine weather columns...]
 # Label: 1 if next month's price is higher, 0 if it is lower or unchanged
@@ -66,6 +73,10 @@ def build_examples(cities, price_column):
     for city in cities: # Loop through every city
         months = cities[city] # Rows of this city by month number
         for t in range(1, 47): # Needs month t - 1 and month t + 1 to exist
+            if not (has_values(months[t - 1], [price_column]) and has_values(months[t], [price_column] + ALL_WEATHER)
+                    and has_values(months[t + 1], [price_column])): # A price or weather value is blank
+                continue # Skip this example, it cannot be built
+
             price_now = float(months[t][price_column]) # Price this month
             price_before = float(months[t - 1][price_column]) # Price last month
             price_after = float(months[t + 1][price_column]) # Price next month
@@ -285,6 +296,7 @@ def run_all(method_name, predict_many, param_grid):
         data = prepare_data(cities, variety)
         entry = {"baselines": {}, "feature_sets": {}}
         print(f"\n=== {method_name} | {variety} ===")
+        print(f"Train rows: {len(data['train'][1])}, test rows: {len(data['test'][1])}") # Fewer than 4658 and 1507 means some rows were skipped
         print(result_header())
 
         for name, result in run_baselines(data): # Baselines do not depend on the feature set
