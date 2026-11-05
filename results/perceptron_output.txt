@@ -1,0 +1,35 @@
+Perceptron for Rice Price Movement
+
+Rice variety: price_regular_milled
+Number of features: 7
+Train size: 4658 (Feb 2020 to Nov 2022)
+Test size: 1507 (Jan 2023 to Nov 2023)
+Learning rate=1.0, seed=170
+
+Choosing the number of epochs on validation (train 2020 to 2021, validate 2022)
+Epochs  MacroF1   Accuracy  
+1       0.418     0.451     
+5       0.510     0.510     
+10      0.469     0.490     
+20      0.521     0.522     
+50      0.506     0.507     
+100     0.502     0.502     
+Chosen epochs = 20
+
+Mistakes in the last training epoch: 2292 of 4658
+Learned weight of each feature (in standardized units, positive pushes toward up)
+Feature                 Weight    
+price_now               -2.315    
+price_change            1.335     
+temp_2m_mean            0.212     
+precipitation_sum       1.201     
+precipitation_hours     -0.436    
+wind_speed_10m_max      -0.138    
+shortwave_radiation     0.379     
+bias                    1.000     
+
+TEST RESULTS (2023)
+Method                  Accuracy  MacroP    MacroR    MacroF1   Confusion matrix
+Majority baseline       0.259     0.129     0.500     0.206     TP=0 FP=0 TN=390 FN=1117
+Persistence baseline    0.598     0.499     0.499     0.498     TP=786 FP=275 TN=115 FN=331
+Perceptron (epochs=20)  0.468     0.491     0.488     0.447     TP=500 FP=184 TN=206 FN=617

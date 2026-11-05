@@ -1,0 +1,24 @@
+K-Nearest Neighbors for Rice Price Movement
+
+Rice variety: price_regular_milled
+Number of features: 7
+Train size: 4658 (Feb 2020 to Nov 2022)
+Test size: 1507 (Jan 2023 to Nov 2023)
+p=2
+
+Choosing k on validation (train 2020 to 2021, validate 2022)
+k     MacroF1   Accuracy  
+1     0.542     0.545     
+3     0.502     0.509     
+5     0.512     0.520     
+7     0.515     0.526     
+11    0.517     0.529     
+15    0.511     0.524     
+21    0.494     0.513     
+Chosen k = 1
+
+TEST RESULTS (2023)
+Method                  Accuracy  MacroP    MacroR    MacroF1   Confusion matrix
+Majority baseline       0.259     0.129     0.500     0.206     TP=0 FP=0 TN=390 FN=1117
+Persistence baseline    0.598     0.499     0.499     0.498     TP=786 FP=275 TN=115 FN=331
+kNN (k=1)               0.476     0.494     0.492     0.454     TP=513 FP=185 TN=205 FN=604

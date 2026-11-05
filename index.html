@@ -1,90 +1,25 @@
 <!DOCTYPE html>
 
-<html lang="en"> <!-- LANGUAGE = ENGLISH -->
+<html lang="en"> <!-- LANGUAGE = ENGLISH!! -->
+  <!-- Palette: add data-palette="monsoon" or "harvest-night" to <html> to switch (see styles.css) -->
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello World!</title> <!-- TITLE ON BAR -->
-    <style>
-      :root {
-        --bg: #ffffff;
-        --text: #1d2330;
-        --muted: #5b6475;
-        --line: #dde1e8;
-        --accent: #2456c9;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme="light"]) {
-          --bg: #14171f;
-          --text: #e8ebf2;
-          --muted: #9aa3b5;
-          --line: #2b3040;
-          --accent: #7aa2ff;
-        }
-      }
-      * { box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
-      @media (prefers-reduced-motion: reduce) {
-        html { scroll-behavior: auto; }
-      }
-      body {
-        margin: 0;
-        background: var(--bg);
-        color: var(--text);
-        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        line-height: 1.6;
-      }
-      a { color: var(--accent); }
-      a:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 3px;
-      }
-      .wrap {
-        max-width: 44rem;
-        margin: 0 auto;
-        padding: 3rem 1.25rem 4rem;
-      }
-      header { padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
-      h1 { font-size: 2.5rem; line-height: 1.15; margin: 0 0 0.5rem; }
-      .lead { color: var(--muted); margin: 0; font-size: 1.1rem; }
-      nav { margin: 1.5rem 0 0.5rem; }
-      nav ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.4rem 1.1rem;
-      }
-      nav a { text-decoration: none; }
-      nav a:hover { text-decoration: underline; }
-      section { padding: 1.75rem 0 0; }
-      h2 { font-size: 1.35rem; margin: 0 0 0.5rem; }
-      p { margin: 0 0 0.75rem; }
-      ul.members { margin: 0; padding-left: 1.25rem; }
-      .placeholder { color: var(--muted); }
-      footer {
-        margin-top: 3rem;
-        padding-top: 1.25rem;
-        border-top: 1px solid var(--line);
-        color: var(--muted);
-        font-size: 0.9rem;
-      }
-    </style>
+    <title>[ Insert Title ]</title> <!-- TITLE ON BAR -->
+    <link rel="stylesheet" href="styles.css">
   </head>
 
   <body>
-    <div class="wrap">
-      <header id="top">
-        <h1>Hello World!</h1>
-        <p class="lead">This page is up and running. Content will be added soon.</p>
+    <!-- STICKY NAV: stays at the top while scrolling -->
+    <header class="site-nav">
+      <div class="wrap">
+        <a class="brand" href="#top">CMSC 170</a>
         <nav aria-label="Sections">
           <ul>
-            <li><a href="#members">Group Members</a></li>
             <li><a href="#problem">Problem</a></li>
             <li><a href="#dataset">Dataset</a></li>
             <li><a href="#methods">Methods</a></li>
-            <li><a href="#setup">Experimental Setup</a></li>
+            <li><a href="#setup">Setup</a></li>
             <li><a href="#results">Results</a></li>
             <li><a href="#discussion">Discussion</a></li>
             <li><a href="#conclusion">Conclusion</a></li>
@@ -92,32 +27,138 @@
             <li><a href="#links">Links</a></li>
           </ul>
         </nav>
-      </header>
+      </div>
+    </header>
 
+    <!-- HERO: title + group members together -->
+    <section class="hero" id="top">
+      <div class="wrap">
+        <p class="kicker">CMSC 170 · Introduction to Artificial Intelligence</p>
+        <h1>[ Insert Title ]</h1>
+
+        <ul class="members" aria-label="Group members">
+          <li>Franchesca Niña Marie M. Alvis</li>
+          <li>Yvonne Mari C. Belonio</li>
+          <li>Nestor Victus T. Bulatao</li>
+          <li>Mikhail Adrian Jude S. Perlas</li>
+        </ul>
+        <p class="affil">Aldrin’s Angels · University of the Philippines Los Baños</p>
+
+        <div class="pills">
+          <a class="pill" href="https://github.com/allhailmikeyl/ai-project-170">Code</a>
+          <a class="pill" href="#links">Slides</a>
+        </div>
+
+        <div class="tldr">
+          <h2>TL;DR</h2>
+          <p>We ask whether a city’s monthly weather helps predict if its retail rice price will go <strong>up or down next month</strong>. We implement kNN, Gaussian Naive Bayes, and a perceptron from scratch, and compare each with <strong>price-only</strong> features against <strong>price plus weather</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
       <main>
-        <section id="members">
-          <h2>Group Members</h2>
-          <ul class="members placeholder">
-            <li>Alvis, Franchesca Niña Marie M.</li>
-            <li>Belonio, Yvonne Mari C.</li>
-            <li>Bulatao, Nestor Victus T.</li>
-            <li>Perlas, Mikhail Adrian Jude S.</li>
-          </ul>
-        </section>
-
         <section id="problem">
           <h2>Problem Statement and Motivation</h2>
-          <p class="placeholder">Coming soon.</p>
+          <p class="placeholder">Coming soon. (Review of related literature goes here.)</p>
         </section>
 
         <section id="dataset">
           <h2>Dataset</h2>
-          <p class="placeholder">Coming soon.</p>
+          <p>We combine two public datasets, joined by <strong>city and month</strong> for <strong>2020 to 2023</strong>.</p>
+
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr><th>Dataset</th><th>Source</th><th>What it contains</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Retail prices of rice</td>
+                  <td><a href="https://openstat.psa.gov.ph/PXWeb/pxweb/en/DB/DB__2M__2018NEW/0042M4ARN01.px/?rxid=ce15d7b1-4c83-4f0a-a151-6619d027ddd5">PSA OpenSTAT</a> (Cereals retail price table, 2018-based)</td>
+                  <td>Monthly retail rice prices per rice variety and area</td>
+                </tr>
+                <tr>
+                  <td>Philippine Cities Weather Data (2020-2023)</td>
+                  <td><a href="https://www.kaggle.com/datasets/bwandowando/philippine-cities-weather-data-2020-2023?select=daily_data_combined_2020_to_2023.csv">Kaggle</a> (daily_data_combined_2020_to_2023.csv)</td>
+                  <td>Daily weather records for 137 cities, aggregated to monthly values</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p><strong>Target:</strong> whether next month’s retail rice price goes <em>up</em> or <em>down</em> compared with the current month.</p>
+          <p><strong>Features:</strong> a rice variety’s recent price history, plus the city’s monthly weather in the weather-augmented setting.</p>
+
+          <figure class="diagram">
+            <svg viewBox="0 0 900 220" role="img" aria-labelledby="pipe-t pipe-d">
+              <title id="pipe-t">Project pipeline</title>
+              <desc id="pipe-d">Rice prices and weather data are merged by city and month, turned into features, fed to three methods, and used to predict whether the price goes up or down.</desc>
+              <defs>
+                <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0 0 L10 5 L0 10 z" class="dg-head"/>
+                </marker>
+              </defs>
+
+              <rect class="dg-box dg-src" x="10" y="30" width="150" height="60" rx="10"/>
+              <text class="dg-title" x="85" y="56">PSA OpenSTAT</text>
+              <text class="dg-sub" x="85" y="75">rice retail prices</text>
+
+              <rect class="dg-box dg-src" x="10" y="130" width="150" height="60" rx="10"/>
+              <text class="dg-title" x="85" y="156">Kaggle weather</text>
+              <text class="dg-sub" x="85" y="175">137 cities, daily</text>
+
+              <rect class="dg-box dg-main" x="210" y="80" width="130" height="60" rx="10"/>
+              <text class="dg-title" x="275" y="106">Merge</text>
+              <text class="dg-sub" x="275" y="125">by city + month</text>
+
+              <rect class="dg-box dg-main" x="385" y="80" width="140" height="60" rx="10"/>
+              <text class="dg-title" x="455" y="106">Features</text>
+              <text class="dg-sub" x="455" y="125">price ± weather</text>
+
+              <rect class="dg-box" x="570" y="20" width="130" height="40" rx="10"/>
+              <text class="dg-title" x="635" y="45">kNN</text>
+              <rect class="dg-box" x="570" y="80" width="130" height="40" rx="10"/>
+              <text class="dg-title" x="635" y="105">Naive Bayes</text>
+              <rect class="dg-box" x="570" y="140" width="130" height="40" rx="10"/>
+              <text class="dg-title" x="635" y="165">Perceptron</text>
+
+              <rect class="dg-box dg-out" x="740" y="80" width="150" height="60" rx="10"/>
+              <text class="dg-out-t" x="815" y="106">Up / Down</text>
+              <text class="dg-out-t" x="815" y="125" style="font-weight:400;font-size:12px">next month</text>
+
+              <path class="dg-arrow" marker-end="url(#arr)" d="M160 60 L210 100"/>
+              <path class="dg-arrow" marker-end="url(#arr)" d="M160 160 L210 120"/>
+              <path class="dg-arrow" marker-end="url(#arr)" d="M340 110 L385 110"/>
+              <path class="dg-arrow" marker-end="url(#arr)" d="M525 110 L570 40"/>
+              <path class="dg-arrow" marker-end="url(#arr)" d="M525 110 L570 100"/>
+              <path class="dg-arrow" marker-end="url(#arr)" d="M525 110 L570 160"/>
+              <path class="dg-arrow" marker-end="url(#arr)" d="M700 40 L740 100"/>
+              <path class="dg-arrow" marker-end="url(#arr)" d="M700 100 L740 110"/>
+              <path class="dg-arrow" marker-end="url(#arr)" d="M700 160 L740 120"/>
+            </svg>
+            <figcaption>Pipeline: two datasets, one merged table, three methods, one up/down prediction.</figcaption>
+          </figure>
         </section>
 
         <section id="methods">
           <h2>Methods</h2>
-          <p class="placeholder">Coming soon.</p>
+          <p>All three methods are implemented from scratch, and each is run twice: with <strong>price-only</strong> features and with <strong>price plus weather</strong> features.</p>
+
+          <div class="card-grid">
+            <article class="card">
+              <h3>k-Nearest Neighbors</h3>
+              <p>Classifies a city-month by the majority label among its <em>k</em> closest records in feature space, using a distance measure such as Euclidean distance.</p>
+            </article>
+            <article class="card">
+              <h3>Gaussian Naive Bayes</h3>
+              <p>Applies Bayes’ rule with the assumption that features are independent given the class, modeling each continuous feature with a per-class Gaussian.</p>
+            </article>
+            <article class="card">
+              <h3>Perceptron</h3>
+              <p>A linear classifier whose weights are updated on every misclassified example until it separates <em>up</em> from <em>down</em>, or training stops.</p>
+            </article>
+          </div>
         </section>
 
         <section id="setup">
@@ -147,7 +188,8 @@
 
         <section id="links">
           <h2>Repository and slides</h2>
-          <p class="placeholder">Coming soon.</p>
+          <p>Code: <a href="https://github.com/allhailmikeyl/ai-project-170">github.com/allhailmikeyl/ai-project-170</a></p>
+          <p class="placeholder">Slides (Canva): coming soon.</p>
         </section>
       </main>
 
