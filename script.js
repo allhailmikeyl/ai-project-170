@@ -339,3 +339,84 @@ function init() {
 }
 
 init();
+
+// Marks the nav link of the section you are reading, so the line under the link follows you down the page
+function initNavSpy() {
+  var header = document.querySelector(".site-nav");
+  var list = header ? header.querySelector("ul") : null;
+  if (!list) { // This page has no nav
+    return;
+  }
+
+  var links = list.querySelectorAll("a");
+  var sections = []; // Pairs of {link, element} for every nav link that points to a section
+  for (var i = 0; i < links.length; i++) {
+    var element = document.getElementById(links[i].getAttribute("href").slice(1));
+    if (element) {
+      sections.push({link: links[i], element: element});
+    }
+  }
+
+  var current = null; // Link that is marked right now
+  var clicked = null; // Section whose link was clicked, until you scroll by yourself
+  var waiting = false; // True while an update is already scheduled
+
+  function update() {
+    waiting = false;
+    var line = header.offsetHeight + 40; // A section counts once its top passes this line
+    var active = null; // Last section that passed the line
+    for (var j = 0; j < sections.length; j++) {
+      if (sections[j].element.getBoundingClientRect().top <= line) {
+        active = sections[j].link;
+      }
+    }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) { // Bottom of the page
+      active = sections[sections.length - 1].link; // The last section, unless you clicked another one that is on screen
+      if (clicked) {
+        var box = clicked.element.getBoundingClientRect();
+        if (box.top < window.innerHeight && box.bottom > 0) {
+          active = clicked.link;
+        }
+      }
+    }
+    if (active === current) { // Nothing changed
+      return;
+    }
+
+    current = active;
+    for (var k = 0; k < links.length; k++) {
+      links[k].removeAttribute("aria-current");
+    }
+    if (current) {
+      current.setAttribute("aria-current", "true");
+      list.scrollTo({left: current.offsetLeft - (list.clientWidth - current.clientWidth) / 2, behavior: "smooth"}); // Keeps it visible on small screens
+    }
+  }
+
+  function schedule() { // Runs update once per frame while scrolling
+    if (!waiting) {
+      waiting = true;
+      window.requestAnimationFrame(update);
+    }
+  }
+
+  list.addEventListener("click", function (event) { // Short sections near the end cannot reach the top, so remember the click
+    var link = event.target.closest("a");
+    clicked = null;
+    for (var m = 0; m < sections.length; m++) {
+      if (sections[m].link === link) {
+        clicked = sections[m];
+      }
+    }
+  });
+  var forget = function () { clicked = null; }; // Scrolling by yourself ends it
+  window.addEventListener("wheel", forget, {passive: true});
+  window.addEventListener("touchstart", forget, {passive: true});
+  window.addEventListener("keydown", forget);
+
+  window.addEventListener("scroll", schedule, {passive: true});
+  window.addEventListener("resize", schedule);
+  update();
+}
+
+initNavSpy();

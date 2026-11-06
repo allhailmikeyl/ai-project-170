@@ -62,7 +62,7 @@ html {
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .card, .pill { transition: none; }
+  .card, .pill, .site-nav a::after { transition: none; }
   .card:hover, .card:focus-within, .pill:hover { transform: none; }
 }
 
@@ -123,6 +123,8 @@ main section:first-child { border-top: 0; }
   white-space: nowrap;
 }
 .site-nav ul {
+  position: relative;        /* lets the script center the active link */
+  height: 100%;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -132,14 +134,34 @@ main section:first-child { border-top: 0; }
   scrollbar-width: none;
 }
 .site-nav ul::-webkit-scrollbar { display: none; }
-.site-nav nav { min-width: 0; }   /* lets the list scroll instead of pushing the toggle off the screen */
+.site-nav nav { min-width: 0; height: 100%; }   /* lets the list scroll instead of pushing the toggle off the screen */
 .site-nav li { flex: none; }
 .site-nav a:not(.brand) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
   color: var(--muted);
   text-decoration: none;
   font-size: 0.95rem;
 }
 .site-nav a:not(.brand):hover { color: var(--accent); }
+
+/* Line under the link of the section you are in (the script sets aria-current) */
+.site-nav a:not(.brand)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--series-2);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+.site-nav a:not(.brand)[aria-current="true"] { color: var(--text); }
+.site-nav a:not(.brand)[aria-current="true"]::after { transform: scaleX(1); }
 
 /* Light / dark toggle button (pill with an icon and the current mode) */
 .theme-toggle {
