@@ -1,6 +1,6 @@
 // Aldrin's Angels
 // CMSC 170 - EF-3L
-// Project: Predicting Rice Price Movement using Weather Data
+// Project: You Rice Me Up: (Subtitle)
 // File: script.js (draws the tables and charts of the Results section from results/results.js)
 
 // Constants
@@ -191,7 +191,8 @@ function resultsTable(variety, keys) {
   }
 
   var html = '<div class="table-scroll"><table class="results-table"><thead><tr><th>Method</th><th>Features</th>' +
-             '<th>Accuracy</th><th>Macro-P</th><th>Macro-R</th><th>Macro-F1</th><th>TP</th><th>FP</th><th>TN</th><th>FN</th>' +
+             '<th class="num">Accuracy</th><th class="num">Macro-P</th><th class="num">Macro-R</th><th class="num">Macro-F1</th>' +
+             '<th class="num">TP</th><th class="num">FP</th><th class="num">TN</th><th class="num">FN</th>' +
              '<th>Tuned</th></tr></thead><tbody>';
   for (var j = 0; j < rows.length; j++) {
     var r = rows[j].result;
@@ -259,7 +260,7 @@ function validationChart(key, variety) {
 
   html += '<details class="values"><summary>Show values</summary><div class="table-scroll"><table><thead><tr><th>' + xTitle + '</th>';
   for (var s = 0; s < series.length; s++) {
-    html += '<th>' + series[s].name + '</th>';
+    html += '<th class="num">' + series[s].name + '</th>';
   }
   html += '</tr></thead><tbody>';
   for (var p = 0; p < grid.length; p++) {
