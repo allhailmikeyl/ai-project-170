@@ -1,6 +1,6 @@
 # Aldrin's Angels
 # CMSC 170 - EF-3L
-# Project: Predicting Rice Price Movement using Weather Data
+# Project: You Rice Me Up: (Subtitle)
 # File: main.py (runs the methods one after the other, then draws the charts)
 # Run from the project folder with: python code/main.py (everything) or python code/main.py knn (only the methods you name)
 
