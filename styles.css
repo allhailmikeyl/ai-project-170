@@ -145,7 +145,7 @@ main section:first-child { border-top: 0; }
   text-decoration: none;
   font-size: 0.95rem;
 }
-.site-nav a:not(.brand):hover { color: var(--accent); }
+.site-nav a:not(.brand):hover { color: var(--text); }
 
 /* Line under the link of the section you are in (the script sets aria-current) */
 .site-nav a:not(.brand)::after {
@@ -158,10 +158,11 @@ main section:first-child { border-top: 0; }
   border-radius: 3px 3px 0 0;
   background: var(--series-2);
   transform: scaleX(0);
-  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, opacity 0.25s ease;
 }
+.site-nav a:not(.brand):hover::after { transform: scaleX(1); opacity: 0.55; }   /* hover: same line, softer than the active one */
 .site-nav a:not(.brand)[aria-current="true"] { color: var(--text); }
-.site-nav a:not(.brand)[aria-current="true"]::after { transform: scaleX(1); }
+.site-nav a:not(.brand)[aria-current="true"]::after { transform: scaleX(1); opacity: 1; }
 
 /* Light / dark toggle button (pill with an icon and the current mode) */
 .theme-toggle {
@@ -197,9 +198,26 @@ main section:first-child { border-top: 0; }
 /* 5. HERO (title + members + buttons) ------------------------------------ */
 .hero {
   background: linear-gradient(180deg, var(--hero-from), var(--hero-to));
-  padding: 3.5rem 0 2.5rem;
+  padding: 0 0 2.5rem;
   text-align: center;
 }
+
+/* Banner photo: fades out at the bottom so it melts into the hero background */
+.hero-image {
+  height: clamp(11rem, 26vw, 20rem);
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+.hero-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
+}
+:root[data-theme="dark"] .hero-image img { filter: brightness(0.7); }   /* softer in dark mode */
 .hero h1 {
   font-size: clamp(2.1rem, 5.5vw, 3.1rem);
   max-width: 40rem;
@@ -249,7 +267,7 @@ main section:first-child { border-top: 0; }
 .tldr {
   max-width: 40rem;
   margin: 2rem auto 0;
-  text-align: left;
+  text-align: center;
 }
 .tldr h2 { text-align: center; font-size: 1.4rem; }
 
@@ -341,7 +359,8 @@ figure.diagram figcaption {
 #results-root h4 { margin: 1.25rem 0 0; font-size: 1rem; }
 .results-note { color: var(--muted); font-size: 0.9rem; }
 .results-table th, .results-table td { white-space: nowrap; }
-td.num { text-align: right; font-variant-numeric: tabular-nums; }
+th.num, td.num { text-align: right; }
+td.num { font-variant-numeric: tabular-nums; }
 .results-table tr.best-row td { font-weight: 700; background: color-mix(in srgb, var(--accent) 12%, transparent); }
 details.values { margin: 0 0 1rem; }
 details.values summary { cursor: pointer; color: var(--muted); font-size: 0.9rem; }
@@ -388,5 +407,4 @@ footer {
   .brand { display: none; }
   .theme-toggle { padding: 0.45rem; }
   .theme-label { display: none; }   /* icon only on small screens */
-  .hero { padding-top: 2.5rem; }
 }

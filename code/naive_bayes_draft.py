@@ -31,7 +31,31 @@ def sort_data(data):
 
     return sorted_data
 
-    
+def assign_label(sorted_data, rice_type):
+    m = 0
+    sorted_label = []
+    for i, row in enumerate(sorted_data):
+        if i+1 == len(sorted_data):
+            new_row = np.append(row, -1)
+            sorted_label.append(new_row)
+            break
+
+        next_row = sorted_data[i+1]
+
+        # Check first if the city in current row is the same city for the next row
+        if row[2] == next_row[2]:
+            # Compare the price of a given rice type
+            if row[rice_type] > next_row[rice_type]:
+                new_row = np.append(row, 1)
+                sorted_label.append(new_row)
+            else:
+                new_row = np.append(row, 0)
+                sorted_label.append(new_row)
+        else:
+            new_row = np.append(row, -1)
+            sorted_label.append(new_row)
+
+    return np.array(sorted_label)
 
 def main():
     # Read csv file
@@ -39,5 +63,14 @@ def main():
 
     # Sort the data by city and date
     sorted_data = sort_data(data)
+
+    # Assign a target label (0 = down ; 1 = up)
+    # Rice type indices = 4 - regular ; 5 - well-milled ; 6 - special
+    sorted_label = assign_label(sorted_data, 4)
+
+    for row in sorted_label:
+        print(row)
+
+    
 
 main()
