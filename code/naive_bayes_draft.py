@@ -25,8 +25,19 @@ def read_file():
     
     return headers, np.array(rows_data, dtype=object)
 
+def sort_data(data):
+    indices = np.lexsort((data[:, 1], data[:, 0], data[:, 2]))
+    sorted_data = data[indices]
+
+    return sorted_data
+
+    
+
 def main():
     # Read csv file
     headers, data = read_file()
+
+    # Sort the data by city and date
+    sorted_data = sort_data(data)
 
 main()
