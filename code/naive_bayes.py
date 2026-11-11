@@ -65,9 +65,8 @@ def fit(train_features, train_labels, variance_floor):
             deviation = sum((x - feature_mean)**2 for x in features)
             variance = deviation / len(features)
             
-            # Ensure that variance is at least as large as variance_floor
-            if variance < variance_floor:
-                variance = variance_floor
+            # Add variance_floor to variance
+            variance += variance_floor
 
             # Append variance to feature_variances
             feature_variances.append(variance)
