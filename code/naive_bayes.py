@@ -1,5 +1,5 @@
 # Responsible Use of AI
-# During the preparation of this work, the author used []
+# During the preparation of this work, the author used ChatGPT and Claude to assist in understanding the algorithm for Naive-Bayes and double-checking the implementation
 # After using this tool, the author reviewed and edited the content as needed and take(s)
 # full responsibility for the content.
 
@@ -24,41 +24,59 @@ for floor in VARIANCE_FLOORS:
 
 # Learns what Naive Bayes needs from the training rows, returns the priors, means, and variances of each class
 def fit(train_features, train_labels, variance_floor):
+    # Intialize the priors, means, and variances dictionaries
+    # key = class_label (0, 1) ; value = priors/means/variances of the class
     priors = {0: None, 1: None}
     means = {0: None, 1: None}
     variances = {0: None, 1: None}
 
     for class_label in [0, 1]:
+        # Holds the rows of the corresponding class
         class_rows = []
+
+        # Loop through the train_labels
         for i, label in enumerate(train_labels):
+            # Check if the label of current train_features is equal to current class_label
+            # If so, append it to class_rows
             if label == class_label:
                 class_rows.append(train_features[i])
         
+        # Compute for class_prior 
         class_prior = len(class_rows) / len(train_features)
+
+        # Set the prior of current class_label to the computed class_prior
         priors[class_label] = class_prior
 
+        # Initialize the list that will hold the feature means and variances
         feature_means = []
         feature_variances = []
         for i in range(len(class_rows[0])):
+            # Holds the values of feature i from each row
             features = []
             for row in class_rows:
+                # Append feature i of current row
                 features.append(row[i])
             
+            # Compute for the feature_mean and append it to feature_means
             feature_mean = sum(features) / len(class_rows)
             feature_means.append(feature_mean)
 
             # FORMULA FROM: https://python.plainenglish.io/calculating-variance-and-standard-deviation-from-the-user-input-in-python-987866064638
             deviation = sum((x - feature_mean)**2 for x in features)
             variance = deviation / len(features)
-
+            
+            # Ensure that variance is at least as large as variance_floor
             if variance < variance_floor:
                 variance = variance_floor
 
+            # Append variance to feature_variances
             feature_variances.append(variance)
 
+        # Set the means & variances of current class_label to computed feature_means and feature_variances
         means[class_label] = feature_means
         variances[class_label] = feature_variances
     
+    # Create a model dictionary that contains the priors, means, and variances
     model = {
         "priors": priors,
         "means": means,
@@ -74,7 +92,7 @@ def log_gaussian(value, mean, variance):
     return log_probability
 
 # Computes the score of one class for one vector: log P(class) + sum of log P(x_i | class)
-def class_score(x, prior, means, variances, variance_floor):
+def class_score(x, prior, means, variances):
     score = math.log(prior)
 
     for i in range(len(x)):
@@ -84,15 +102,19 @@ def class_score(x, prior, means, variances, variance_floor):
     return score
 
 # Predicts the label of one vector (1 = up, 0 = not up)
-def predict(x, model, variance_floor):
+def predict(x, model):
+    # Get the priors, means, and variances from the model dictionary
     priors = model["priors"]
     means = model["means"]
     variances = model["variances"]
 
-    down_score = class_score(x, priors[0], means[0], variances[0], variance_floor)
+    # Get class_score of down label (key = 0)
+    down_score = class_score(x, priors[0], means[0], variances[0])
 
-    up_score = class_score(x, priors[1], means[1], variances[1], variance_floor)
+    # Get class_score of up label (key = 1)
+    up_score = class_score(x, priors[1], means[1], variances[1])
 
+    # Compare the scores and return the class/label with a larger score
     if up_score > down_score:
         return 1
     else:
@@ -103,18 +125,21 @@ def predict_many(train_features, train_labels, test_features, param_grid):
     all_predictions = []
 
     for param in param_grid:
+        # Get variance floor from param
         variance_floor = param["variance_floor"]
 
+        # Get model (priors, means, and variances) from training data
         model = fit(train_features, train_labels, variance_floor)
 
+        # List of predictions for this param
         predictions = []
         for x in test_features:
-            predicted_label = predict(x, model, variance_floor)
+            predicted_label = predict(x, model)
             predictions.append(predicted_label)
 
+        # Append the prediction for this param to all_predictions
         all_predictions.append(predictions)
 
-    # print(all_predictions)
     return all_predictions
 
 # Main Function
