@@ -24,7 +24,7 @@ for floor in VARIANCE_FLOORS:
 
 # Learns what Naive Bayes needs from the training rows, returns the priors, means, and variances of each class
 def fit(train_features, train_labels, variance_floor):
-    # Intialize the priors, means, and variances dictionaries
+    # Initialize the priors, means, and variances dictionaries
     # key = class_label (0, 1) ; value = priors/means/variances of the class
     priors = {0: None, 1: None}
     means = {0: None, 1: None}
