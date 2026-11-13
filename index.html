@@ -237,9 +237,14 @@
           <ol>
             <li>
               <strong>Weather, daily to monthly.</strong> For each city, the
-              daily values in a month are turned into one monthly value.
-              Temperature, daily maximum wind speed, and shortwave radiation are
-              averaged, while precipitation and precipitation hours are summed.<!-- TODO (group): add how max/min temperature, wind gusts, and evapotranspiration were aggregated -->
+              daily values in a month are turned into one monthly value. Daily
+              mean temperatures and daily maximum wind speeds are averaged. The
+              highest daily maximum temperature and lowest daily minimum
+              temperature are, respectively, used for the maximum and minimum
+              temperatures. Daily precipitation, precipitation hours, shortwave
+              radiation, and FAO evapotranspiration values are summed to obtain
+              their monthly totals. Lastly, for maximum wind gusts, the highest
+              daily maximum wind gust value within the month is used.
             </li>
             <li>
               <strong>Location, city to province.</strong> Prices are reported
