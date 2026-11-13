@@ -1,23 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html lang="en"> <!-- LANGUAGE = ENGLISH!! -->
+<html lang="en">
+  <!-- LANGUAGE = ENGLISH!! -->
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>[ Insert Title ]</title> <!-- TITLE ON BAR -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>[ Insert Title ]</title>
+    <!-- TITLE ON BAR -->
     <!-- FONTS: Newsreader (headings) and Inter (everything else), from Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Newsreader:opsz,wght@6..72,600;6..72,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Newsreader:opsz,wght@6..72,600;6..72,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
 
     <!-- THEME: runs before the page is drawn, so there is no flash of the wrong theme -->
     <script>
       (function () {
         var theme = null;
-        try { theme = localStorage.getItem("theme"); } catch (e) {} // Saved choice, if any
-        if (theme !== "light" && theme !== "dark") { // First visit, so follow the OS setting
-          theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        try {
+          theme = localStorage.getItem("theme");
+        } catch (e) {} // Saved choice, if any
+        if (theme !== "light" && theme !== "dark") {
+          // First visit, so follow the OS setting
+          theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
         }
         document.documentElement.setAttribute("data-theme", theme);
       })();
@@ -26,15 +36,22 @@
         var root = document.documentElement;
         var button = document.getElementById("theme-toggle");
 
-        function describe() { // Tells screen readers what the button will do
+        function describe() {
+          // Tells screen readers what the button will do
           var dark = root.getAttribute("data-theme") === "dark";
-          button.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+          button.setAttribute(
+            "aria-label",
+            dark ? "Switch to light mode" : "Switch to dark mode",
+          );
         }
 
         button.addEventListener("click", function () {
-          var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+          var next =
+            root.getAttribute("data-theme") === "dark" ? "light" : "dark";
           root.setAttribute("data-theme", next);
-          try { localStorage.setItem("theme", next); } catch (e) {} // Remember the choice
+          try {
+            localStorage.setItem("theme", next);
+          } catch (e) {} // Remember the choice
           describe();
         });
 
@@ -64,10 +81,30 @@
         </nav>
 
         <!-- LIGHT / DARK TOGGLE: shows the current mode, click to switch -->
-        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode">
-          <img class="icon-sun" src="images/icon-sun.png" alt="" width="18" height="18">
-          <img class="icon-moon" src="images/icon-moon.png" alt="" width="18" height="18">
-          <span class="theme-label"><span class="label-light">Light</span><span class="label-dark">Dark</span></span>
+        <button
+          class="theme-toggle"
+          id="theme-toggle"
+          type="button"
+          aria-label="Switch to dark mode"
+        >
+          <img
+            class="icon-sun"
+            src="images/icon-sun.png"
+            alt=""
+            width="18"
+            height="18"
+          />
+          <img
+            class="icon-moon"
+            src="images/icon-moon.png"
+            alt=""
+            width="18"
+            height="18"
+          />
+          <span class="theme-label"
+            ><span class="label-light">Light</span
+            ><span class="label-dark">Dark</span></span
+          >
         </button>
       </div>
     </header>
@@ -76,7 +113,13 @@
     <section class="hero" id="top">
       <!-- BANNER: photo that fades into the hero background (images/hero-rice.jpg) -->
       <div class="hero-image">
-        <img src="images/hero-rice.jpg" alt="Close-up of rice grains ripening in a paddy field" width="1800" height="720" fetchpriority="high">
+        <img
+          src="images/hero-rice.jpg"
+          alt="Close-up of rice grains ripening in a paddy field"
+          width="1800"
+          height="720"
+          fetchpriority="high"
+        />
       </div>
 
       <div class="wrap">
@@ -89,16 +132,28 @@
           <li>Nestor Victus T. Bulatao</li>
           <li>Mikhail Adrian Jude S. Perlas</li>
         </ul>
-        <p class="affil">Aldrin’s Angels · University of the Philippines Los Baños</p>
+        <p class="affil">
+          Aldrin’s Angels · University of the Philippines Los Baños
+        </p>
 
         <div class="pills">
-          <a class="pill" href="https://github.com/allhailmikeyl/ai-project-170">Code</a>
+          <a class="pill" href="https://github.com/allhailmikeyl/ai-project-170"
+            >Code</a
+          >
           <a class="pill" href="#links">Slides</a>
         </div>
 
         <div class="tldr">
           <h2>TL;DR</h2>
-          <p>We ask whether a city’s monthly weather helps predict if its retail rice price will go <strong>up or down next month</strong>. We implement kNN, Gaussian Naive Bayes, and a perceptron from scratch, and run each on <strong>price-only</strong>, <strong>weather-only</strong>, and <strong>price-plus-weather</strong> features to see how much the weather adds.</p>
+          <p>
+            We ask whether a city’s monthly weather helps predict if its retail
+            rice price will go <strong>up or down next month</strong>. We
+            implement kNN, Gaussian Naive Bayes, and a perceptron from scratch,
+            and run each on <strong>price-only</strong>,
+            <strong>weather-only</strong>, and
+            <strong>price-plus-weather</strong> features to see how much the
+            weather adds.
+          </p>
         </div>
       </div>
     </section>
@@ -113,141 +168,395 @@
 
         <section id="problem">
           <h2>Problem Statement and Motivation</h2>
-          <p class="placeholder">Coming soon. (Review of related literature goes here.)</p>
+          <p class="placeholder">
+            Coming soon. (Review of related literature goes here.)
+          </p>
         </section>
 
         <section id="dataset">
           <h2>Dataset</h2>
-          <p>We combine two public datasets, joined by <strong>city and month</strong> for <strong>2020 to 2023</strong>.</p>
+          <p>
+            We combine two public datasets, joined by
+            <strong>city and month</strong> for <strong>2020 to 2023</strong>.
+          </p>
 
           <div class="table-scroll">
             <table>
               <thead>
-                <tr><th>Dataset</th><th>Source</th><th>What it contains</th></tr>
+                <tr>
+                  <th>Dataset</th>
+                  <th>Source</th>
+                  <th>What it contains</th>
+                </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>Retail prices of rice</td>
-                  <td><a href="https://openstat.psa.gov.ph/PXWeb/pxweb/en/DB/DB__2M__2018NEW/0042M4ARN01.px/?rxid=ce15d7b1-4c83-4f0a-a151-6619d027ddd5">PSA OpenSTAT</a> (Cereals retail price table, 2018-based)</td>
-                  <td>Monthly retail prices per kg of three rice varieties (well-milled, regular-milled, and special) for 119 geolocations</td>
+                  <td>
+                    <a
+                      href="https://openstat.psa.gov.ph/PXWeb/pxweb/en/DB/DB__2M__2018NEW/0042M4ARN01.px/?rxid=ce15d7b1-4c83-4f0a-a151-6619d027ddd5"
+                      >PSA OpenSTAT</a
+                    >
+                    (Cereals retail price table, 2018-based)
+                  </td>
+                  <td>
+                    Monthly retail prices per kg of three rice varieties
+                    (well-milled, regular-milled, and special) for 119
+                    geolocations
+                  </td>
                 </tr>
                 <tr>
                   <td>Philippine Cities Weather Data (2020-2023)</td>
-                  <td><a href="https://www.kaggle.com/datasets/bwandowando/philippine-cities-weather-data-2020-2023?select=daily_data_combined_2020_to_2023.csv">Kaggle</a> (daily_data_combined_2020_to_2023.csv)</td>
-                  <td>Daily weather records for 137 cities (over 200,000 rows), aggregated to monthly values</td>
+                  <td>
+                    <a
+                      href="https://www.kaggle.com/datasets/bwandowando/philippine-cities-weather-data-2020-2023?select=daily_data_combined_2020_to_2023.csv"
+                      >Kaggle</a
+                    >
+                    (daily_data_combined_2020_to_2023.csv)
+                  </td>
+                  <td>
+                    Daily weather records for 137 cities (over 200,000 rows),
+                    aggregated to monthly values
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <p><strong>Task:</strong> for a given city and month, predict whether the retail price of rice goes <em>up</em> in the following month.</p>
+          <p>
+            <strong>Task:</strong> for a given city and month, predict whether
+            the retail price of rice goes <em>up</em> in the following month.
+          </p>
 
           <h3>Preprocessing</h3>
-          <p>All preprocessing was done in Google Sheets with formulas that reference the raw price and weather sheets, so every step can be traced back to the source data.</p>
+          <p>
+            All preprocessing was done in Google Sheets with formulas that
+            reference the raw price and weather sheets, so every step can be
+            traced back to the source data.
+          </p>
           <ol>
-            <li><strong>Weather, daily to monthly.</strong> For each city, the daily values in a month are turned into one monthly value. Temperature, daily maximum wind speed, and shortwave radiation are averaged, while precipitation and precipitation hours are summed.<!-- TODO (group): add how max/min temperature, wind gusts, and evapotranspiration were aggregated --></li>
-            <li><strong>Location, city to province.</strong> Prices are reported per province, so each city is matched to its province (for example, Bacoor to Cavite and Calamba to Laguna). All NCR cities share the NCR price. City names that appear in more than one province (San Carlos, Talisay, and Isabela, for example) are assigned to the most likely province and noted as an assumption. 29 of the 82 provinces (including NCR) have no city with weather data and are left out, which leaves 52 provinces plus NCR.</li>
-            <li><strong>Price, province to city.</strong> Every city takes the price of its province. Cities stay as separate rows instead of being merged, because two cities in the same province can have very different weather even when their price is the same.</li>
-            <li><strong>Result.</strong> 137 cities over 48 months give 6,576 city-month rows.</li>
+            <li>
+              <strong>Weather, daily to monthly.</strong> For each city, the
+              daily values in a month are turned into one monthly value.
+              Temperature, daily maximum wind speed, and shortwave radiation are
+              averaged, while precipitation and precipitation hours are summed.<!-- TODO (group): add how max/min temperature, wind gusts, and evapotranspiration were aggregated -->
+            </li>
+            <li>
+              <strong>Location, city to province.</strong> Prices are reported
+              per province, so each city is matched to its province (for
+              example, Bacoor to Cavite and Calamba to Laguna). All NCR cities
+              share the NCR price. City names that appear in more than one
+              province (San Carlos, Talisay, and Isabela, for example) are
+              assigned to the most likely province and noted as an assumption.
+              29 of the 82 provinces (including NCR) have no city with weather
+              data and are left out, which leaves 52 provinces plus NCR.
+            </li>
+            <li>
+              <strong>Price, province to city.</strong> Every city takes the
+              price of its province. Cities stay as separate rows instead of
+              being merged, because two cities in the same province can have
+              very different weather even when their price is the same.
+            </li>
+            <li>
+              <strong>Result.</strong> 137 cities over 48 months give 6,576
+              city-month rows.
+            </li>
           </ol>
 
           <h3>Examples and features</h3>
-          <p>For every city and month <em>t</em>, we build one example from month <em>t</em> and take its label from month <em>t</em> + 1.</p>
+          <p>
+            For every city and month <em>t</em>, we build one example from month
+            <em>t</em> and take its label from month <em>t</em> + 1.
+          </p>
           <div class="table-scroll">
             <table>
               <thead>
-                <tr><th>Part</th><th>Contents</th></tr>
+                <tr>
+                  <th>Part</th>
+                  <th>Contents</th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td>Price features (2)</td><td>Current price and the price change from last month</td></tr>
-                <tr><td>Weather features (9)</td><td>Mean, maximum, and minimum temperature; total precipitation; precipitation hours; maximum wind speed; maximum wind gusts; shortwave radiation; FAO evapotranspiration</td></tr>
-                <tr><td>Label</td><td>1 if next month’s price is higher, and 0 if it is lower or unchanged</td></tr>
+                <tr>
+                  <td>Price features (2)</td>
+                  <td>Current price and the price change from last month</td>
+                </tr>
+                <tr>
+                  <td>Weather features (9)</td>
+                  <td>
+                    Mean, maximum, and minimum temperature; total precipitation;
+                    precipitation hours; maximum wind speed; maximum wind gusts;
+                    shortwave radiation; FAO evapotranspiration
+                  </td>
+                </tr>
+                <tr>
+                  <td>Label</td>
+                  <td>
+                    1 if next month’s price is higher, and 0 if it is lower or
+                    unchanged
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
-          <p>Three months have no usable example: January 2020 (no previous month for the price change), December 2023 (no next month for the label), and December 2022 (its label comes from January 2023, which belongs to the test period).</p>
+          <p>
+            Three months have no usable example: January 2020 (no previous month
+            for the price change), December 2023 (no next month for the label),
+            and December 2022 (its label comes from January 2023, which belongs
+            to the test period).
+          </p>
 
-          <p>Every method is run on three feature sets, so we can measure how much the weather adds. Each of the three rice varieties is modeled separately, which gives 3 varieties × 3 methods × 3 feature sets = 27 configurations.</p>
+          <p>
+            Every method is run on three feature sets, so we can measure how
+            much the weather adds. Each of the three rice varieties is modeled
+            separately, which gives 3 varieties × 3 methods × 3 feature sets =
+            27 configurations.
+          </p>
           <div class="table-scroll">
             <table>
               <thead>
-                <tr><th>Feature set</th><th>Features</th></tr>
+                <tr>
+                  <th>Feature set</th>
+                  <th>Features</th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td>Price only</td><td>Current price and price change (2)</td></tr>
-                <tr><td>Weather only</td><td>The nine weather features (9)</td></tr>
-                <tr><td>Price + weather</td><td>All of the above (11)</td></tr>
+                <tr>
+                  <td>Price only</td>
+                  <td>Current price and price change (2)</td>
+                </tr>
+                <tr>
+                  <td>Weather only</td>
+                  <td>The nine weather features (9)</td>
+                </tr>
+                <tr>
+                  <td>Price + weather</td>
+                  <td>All of the above (11)</td>
+                </tr>
               </tbody>
             </table>
           </div>
 
           <figure class="diagram">
-            <svg viewBox="0 0 900 220" role="img" aria-labelledby="pipe-t pipe-d">
+            <svg
+              viewBox="0 0 900 220"
+              role="img"
+              aria-labelledby="pipe-t pipe-d"
+            >
               <title id="pipe-t">Project pipeline</title>
-              <desc id="pipe-d">Rice prices and weather data are merged by city and month, turned into three feature sets, fed to three methods, and used to predict whether the price goes up or down.</desc>
+              <desc id="pipe-d">
+                Rice prices and weather data are merged by city and month,
+                turned into three feature sets, fed to three methods, and used
+                to predict whether the price goes up or down.
+              </desc>
               <defs>
-                <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                  <path d="M0 0 L10 5 L0 10 z" class="dg-head"/>
+                <marker
+                  id="arr"
+                  viewBox="0 0 10 10"
+                  refX="9"
+                  refY="5"
+                  markerWidth="7"
+                  markerHeight="7"
+                  orient="auto-start-reverse"
+                >
+                  <path d="M0 0 L10 5 L0 10 z" class="dg-head" />
                 </marker>
               </defs>
 
-              <rect class="dg-box dg-src" x="10" y="30" width="150" height="60" rx="10"/>
+              <rect
+                class="dg-box dg-src"
+                x="10"
+                y="30"
+                width="150"
+                height="60"
+                rx="10"
+              />
               <text class="dg-title" x="85" y="56">PSA OpenSTAT</text>
               <text class="dg-sub" x="85" y="75">rice retail prices</text>
 
-              <rect class="dg-box dg-src" x="10" y="130" width="150" height="60" rx="10"/>
+              <rect
+                class="dg-box dg-src"
+                x="10"
+                y="130"
+                width="150"
+                height="60"
+                rx="10"
+              />
               <text class="dg-title" x="85" y="156">Kaggle weather</text>
               <text class="dg-sub" x="85" y="175">137 cities, daily</text>
 
-              <rect class="dg-box dg-main" x="210" y="80" width="130" height="60" rx="10"/>
+              <rect
+                class="dg-box dg-main"
+                x="210"
+                y="80"
+                width="130"
+                height="60"
+                rx="10"
+              />
               <text class="dg-title" x="275" y="106">Merge</text>
               <text class="dg-sub" x="275" y="125">by city + month</text>
 
-              <rect class="dg-box dg-main" x="385" y="80" width="140" height="60" rx="10"/>
+              <rect
+                class="dg-box dg-main"
+                x="385"
+                y="80"
+                width="140"
+                height="60"
+                rx="10"
+              />
               <text class="dg-title" x="455" y="106">Features</text>
               <text class="dg-sub" x="455" y="125">3 feature sets</text>
 
-              <rect class="dg-box" x="570" y="20" width="130" height="40" rx="10"/>
+              <rect
+                class="dg-box"
+                x="570"
+                y="20"
+                width="130"
+                height="40"
+                rx="10"
+              />
               <text class="dg-title" x="635" y="45">kNN</text>
-              <rect class="dg-box" x="570" y="80" width="130" height="40" rx="10"/>
+              <rect
+                class="dg-box"
+                x="570"
+                y="80"
+                width="130"
+                height="40"
+                rx="10"
+              />
               <text class="dg-title" x="635" y="105">Naive Bayes</text>
-              <rect class="dg-box" x="570" y="140" width="130" height="40" rx="10"/>
+              <rect
+                class="dg-box"
+                x="570"
+                y="140"
+                width="130"
+                height="40"
+                rx="10"
+              />
               <text class="dg-title" x="635" y="165">Perceptron</text>
 
-              <rect class="dg-box dg-out" x="740" y="80" width="150" height="60" rx="10"/>
+              <rect
+                class="dg-box dg-out"
+                x="740"
+                y="80"
+                width="150"
+                height="60"
+                rx="10"
+              />
               <text class="dg-out-t" x="815" y="106">Up / Down</text>
-              <text class="dg-out-t" x="815" y="125" style="font-weight:400;font-size:12px">next month</text>
+              <text
+                class="dg-out-t"
+                x="815"
+                y="125"
+                style="font-weight: 400; font-size: 12px"
+              >
+                next month
+              </text>
 
-              <path class="dg-arrow" marker-end="url(#arr)" d="M160 60 L210 100"/>
-              <path class="dg-arrow" marker-end="url(#arr)" d="M160 160 L210 120"/>
-              <path class="dg-arrow" marker-end="url(#arr)" d="M340 110 L385 110"/>
-              <path class="dg-arrow" marker-end="url(#arr)" d="M525 110 L570 40"/>
-              <path class="dg-arrow" marker-end="url(#arr)" d="M525 110 L570 100"/>
-              <path class="dg-arrow" marker-end="url(#arr)" d="M525 110 L570 160"/>
-              <path class="dg-arrow" marker-end="url(#arr)" d="M700 40 L740 100"/>
-              <path class="dg-arrow" marker-end="url(#arr)" d="M700 100 L740 110"/>
-              <path class="dg-arrow" marker-end="url(#arr)" d="M700 160 L740 120"/>
+              <path
+                class="dg-arrow"
+                marker-end="url(#arr)"
+                d="M160 60 L210 100"
+              />
+              <path
+                class="dg-arrow"
+                marker-end="url(#arr)"
+                d="M160 160 L210 120"
+              />
+              <path
+                class="dg-arrow"
+                marker-end="url(#arr)"
+                d="M340 110 L385 110"
+              />
+              <path
+                class="dg-arrow"
+                marker-end="url(#arr)"
+                d="M525 110 L570 40"
+              />
+              <path
+                class="dg-arrow"
+                marker-end="url(#arr)"
+                d="M525 110 L570 100"
+              />
+              <path
+                class="dg-arrow"
+                marker-end="url(#arr)"
+                d="M525 110 L570 160"
+              />
+              <path
+                class="dg-arrow"
+                marker-end="url(#arr)"
+                d="M700 40 L740 100"
+              />
+              <path
+                class="dg-arrow"
+                marker-end="url(#arr)"
+                d="M700 100 L740 110"
+              />
+              <path
+                class="dg-arrow"
+                marker-end="url(#arr)"
+                d="M700 160 L740 120"
+              />
             </svg>
-            <figcaption>Pipeline: two datasets, one merged table, three feature sets, three methods, one up/down prediction.</figcaption>
+            <figcaption>
+              Pipeline: two datasets, one merged table, three feature sets,
+              three methods, one up/down prediction.
+            </figcaption>
           </figure>
         </section>
 
         <section id="methods">
           <h2>Methods</h2>
-          <p>All three methods are implemented from scratch with the Python standard library, and each solves the same task on the same data. They are meant to be meaningfully different: kNN is distance-based, Naive Bayes is probabilistic, and the perceptron is a linear classifier. All of them read the same standardized features, split, and scoring from one shared module, so the comparison is fair.</p>
+          <p>
+            All three methods are implemented from scratch with the Python
+            standard library, and each solves the same task on the same data.
+            They are meant to be meaningfully different: kNN is distance-based,
+            Naive Bayes is probabilistic, and the perceptron is a linear
+            classifier. All of them read the same standardized features, split,
+            and scoring from one shared module, so the comparison is fair.
+          </p>
 
           <div class="card-grid">
             <article class="card">
               <h3>k-Nearest Neighbors</h3>
-              <p>Classifies a city-month by the majority label among its <em>k</em> closest training records, using Euclidean distance on the standardized features. A tie (even <em>k</em>) goes to the closest neighbor. <em>k</em> is chosen on the validation year from a list of odd values.</p>
+              <p>
+                Compares a city-month record with similar records from the
+                training dataset to predict whether the next month's rice price
+                will increase. It uses
+                <em>Euclidean distance (Minkowski distance with p = 2)</em> on
+                standardized features to find the <em>k nearest records</em>,
+                then uses <em>majority voting</em> to determine the prediction.
+                The value of <em>k</em> is selected based on the highest
+                validation macro-F1 score.
+              </p>
             </article>
             <article class="card">
               <h3>Gaussian Naive Bayes</h3>
-              <p>Applies Bayes’ rule with the assumption that features are independent given the class. Each feature gets a per-class Gaussian learned from the training rows, the prior of a class is its share of the training rows, and the classes are compared by their log scores. A small variance floor stops a constant feature from dividing by zero.</p>
+              <p>
+                Calculates the probability of each possible class to predict
+                whether the next month's rice price will increase. It uses
+                <em>Gaussian distributions</em> to model each feature, assuming
+                that features are <em>independent given the class</em>. The
+                algorithm calculates the <em>class prior probabilities</em>,
+                along with the <em>mean and standard deviation</em> of each
+                feature, then compares the <em>log probability scores</em> to
+                determine the predicted class.
+              </p>
             </article>
             <article class="card">
               <h3>Perceptron</h3>
-              <p>A linear classifier with a bias weight. It goes through the training rows in order and, whenever a row is misclassified, updates the weights with <em>w</em> = <em>w</em> + <em>r</em>(<em>d</em> − <em>y</em>)<em>x</em>. Training stops after an epoch with no mistakes or at the epoch limit. The learning rate and the epoch limit are chosen on the validation year.</p>
+              <p>
+                Uses a <em>linear classifier</em> with a weighted sum of the
+                input features and a <em>bias term</em> to predict whether the
+                next month's rice price will increase. A
+                <em>threshold function</em> determines the predicted class.
+                Whenever a record is misclassified, the weights are updated
+                based on the difference between the actual and predicted output.
+                We use a <em>learning rate of 1.0</em>, shuffle the training
+                rows each epoch using a fixed seed of <em>170</em>, and select
+                the number of epochs based on validation macro-F1.
+              </p>
             </article>
           </div>
         </section>
@@ -256,57 +565,152 @@
           <h2>Experimental Setup</h2>
 
           <h3>Data splits</h3>
-          <p>We split by time instead of randomly, for two reasons. It matches the real task, which is forecasting forward from past data. It also prevents leakage: cities in the same province share identical prices and labels, so a random split would put near-copies of test rows in the training set. Features are standardized with the mean and standard deviation of the training rows only.</p>
+          <p>
+            We split by time instead of randomly, for two reasons. It matches
+            the real task, which is forecasting forward from past data. It also
+            prevents leakage: cities in the same province share identical prices
+            and labels, so a random split would put near-copies of test rows in
+            the training set. Features are standardized with the mean and
+            standard deviation of the training rows only.
+          </p>
           <div class="table-scroll">
             <table>
               <thead>
-                <tr><th>Part</th><th>Feature months</th><th class="num">Rows</th></tr>
+                <tr>
+                  <th>Part</th>
+                  <th>Feature months</th>
+                  <th class="num">Rows</th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td>Training</td><td>Feb 2020 to Nov 2022</td><td class="num">4,658</td></tr>
-                <tr><td>Test (used once)</td><td>Jan 2023 to Nov 2023</td><td class="num">1,507</td></tr>
-                <tr><td>Tuning: sub-train</td><td>Feb 2020 to Nov 2021</td><td class="num">3,014</td></tr>
-                <tr><td>Tuning: validation</td><td>Jan 2022 to Nov 2022</td><td class="num">1,507</td></tr>
+                <tr>
+                  <td>Training</td>
+                  <td>Feb 2020 to Nov 2022</td>
+                  <td class="num">4,658</td>
+                </tr>
+                <tr>
+                  <td>Test (used once)</td>
+                  <td>Jan 2023 to Nov 2023</td>
+                  <td class="num">1,507</td>
+                </tr>
+                <tr>
+                  <td>Tuning: sub-train</td>
+                  <td>Feb 2020 to Nov 2021</td>
+                  <td class="num">3,014</td>
+                </tr>
+                <tr>
+                  <td>Tuning: validation</td>
+                  <td>Jan 2022 to Nov 2022</td>
+                  <td class="num">1,507</td>
+                </tr>
               </tbody>
             </table>
           </div>
-          <p>December 2021 is left out of the tuning split for the same reason as December 2022: its label comes from the first month of the next period.</p>
-          <p><strong>Class balance.</strong> “Up” is 43 to 48% of the training labels and 47 to 54% of the 2022 validation labels, but 68 to 74% of the 2023 test labels, depending on the variety (regular-milled: 48%, then 54%, then 74%). Because of this shift, we use macro-F1 as the main metric and compare against baselines.</p>
+          <p>
+            December 2021 is left out of the tuning split for the same reason as
+            December 2022: its label comes from the first month of the next
+            period.
+          </p>
+          <p>
+            <strong>Class balance.</strong> “Up” is 43 to 48% of the training
+            labels and 47 to 54% of the 2022 validation labels, but 68 to 74% of
+            the 2023 test labels, depending on the variety (regular-milled: 48%,
+            then 54%, then 74%). Because of this shift, we use macro-F1 as the
+            main metric and compare against baselines.
+          </p>
 
           <h3>Metrics</h3>
           <ul>
-            <li><strong>Confusion matrix</strong> (TP, FP, TN, FN, with “up” as the positive class): shows what kind of mistakes a method makes, and every other metric is computed from it.</li>
-            <li><strong>Accuracy:</strong> easy to read, but misleading here, since always predicting “up” would score 68 to 74% on the test year.</li>
-            <li><strong>Macro precision and recall:</strong> show whether a method favors one class.</li>
-            <li><strong>Macro-F1</strong> (main metric): averages the F1 of both classes equally, so a method cannot score well by favoring the majority class.</li>
+            <li>
+              <strong>Confusion matrix</strong> (TP, FP, TN, FN, with “up” as
+              the positive class): shows what kind of mistakes a method makes,
+              and every other metric is computed from it.
+            </li>
+            <li>
+              <strong>Accuracy:</strong> easy to read, but misleading here,
+              since always predicting “up” would score 68 to 74% on the test
+              year.
+            </li>
+            <li>
+              <strong>Macro precision and recall:</strong> show whether a method
+              favors one class.
+            </li>
+            <li>
+              <strong>Macro-F1</strong> (main metric): averages the F1 of both
+              classes equally, so a method cannot score well by favoring the
+              majority class.
+            </li>
           </ul>
-          <p><strong>Baselines.</strong> <em>Majority class</em> always predicts the more common training label. <em>Persistence</em> predicts “up” if the price already rose from last month to this month.</p>
+          <p>
+            <strong>Baselines.</strong> <em>Majority class</em> always predicts
+            the more common training label. <em>Persistence</em> predicts “up”
+            if the price already rose from last month to this month.
+          </p>
 
           <h3>Hyperparameters</h3>
-          <p>Each method is tuned the same way: train on 2020 to 2021, score on 2022, and keep the setting with the best macro-F1 (a tie keeps the earlier setting). The method is then retrained on 2020 to 2022 and scored once on 2023.</p>
+          <p>
+            Each method is tuned the same way: train on 2020 to 2021, score on
+            2022, and keep the setting with the best macro-F1 (a tie keeps the
+            earlier setting). The method is then retrained on 2020 to 2022 and
+            scored once on 2023.
+          </p>
           <div class="table-scroll">
             <table>
               <thead>
-                <tr><th>Method</th><th>Tuned on validation</th><th>Fixed</th></tr>
+                <tr>
+                  <th>Method</th>
+                  <th>Tuned on validation</th>
+                  <th>Fixed</th>
+                </tr>
               </thead>
               <tbody>
                 <!-- TODO (group): keep these values the same as the final code -->
-                <tr><td>kNN</td><td><em>k</em> = 1, 3, 5, 7, 9, 11, 15, 21, 31, 51</td><td>Euclidean distance</td></tr>
-                <tr><td>Naive Bayes</td><td>Variance floor = 1e-9, 1e-6, 1e-3, 1e-1</td><td>Gaussian feature per class</td></tr>
-                <tr><td>Perceptron</td><td>Learning rate = 0.001, 0.01, 0.1; epoch limit = 10, 50, 100</td><td>Weights start at 0; rows in dataset order</td></tr>
+                <tr>
+                  <td>kNN</td>
+                  <td><em>k</em> = 1, 3, 5, 7, 9, 11, 15, 21, 31, 51</td>
+                  <td>Euclidean distance</td>
+                </tr>
+                <tr>
+                  <td>Naive Bayes</td>
+                  <td>Variance floor = 1e-9, 1e-6, 1e-3, 1e-1</td>
+                  <td>Gaussian feature per class</td>
+                </tr>
+                <tr>
+                  <td>Perceptron</td>
+                  <td>
+                    Learning rate = 0.001, 0.01, 0.1; epoch limit = 10, 50, 100
+                  </td>
+                  <td>Weights start at 0; rows in dataset order</td>
+                </tr>
               </tbody>
             </table>
           </div>
 
           <h3>Reproducibility</h3>
-          <p>The methods use only the Python standard library (matplotlib is used only to draw the charts), and there is no hidden randomness: anything random uses the fixed seed 170. Every method runs with the identical data, split, scaling, and metrics.</p>
+          <p>
+            The methods use only the Python standard library (matplotlib is used
+            only to draw the charts), and there is no hidden randomness:
+            anything random uses the fixed seed 170. Every method runs with the
+            identical data, split, scaling, and metrics.
+          </p>
         </section>
 
         <section id="results">
           <h2>Results</h2>
-          <p>Choose a rice variety. The tables and charts are drawn from <code>results/results.js</code>, which the methods write every time they run.</p>
-          <div class="tabs" id="variety-tabs" role="group" aria-label="Rice variety"></div>
-          <div id="results-root"><p class="placeholder">Loading results…</p></div>
+          <p>
+            Choose a rice variety. The tables and charts are drawn from
+            <code>results/results.js</code>, which the methods write every time
+            they run.
+          </p>
+          <div
+            class="tabs"
+            id="variety-tabs"
+            role="group"
+            aria-label="Rice variety"
+          ></div>
+          <div id="results-root">
+            <p class="placeholder">Loading results…</p>
+          </div>
         </section>
 
         <section id="discussion">
@@ -326,7 +730,12 @@
 
         <section id="links">
           <h2>Repository and slides</h2>
-          <p>Code: <a href="https://github.com/allhailmikeyl/ai-project-170">github.com/allhailmikeyl/ai-project-170</a></p>
+          <p>
+            Code:
+            <a href="https://github.com/allhailmikeyl/ai-project-170"
+              >github.com/allhailmikeyl/ai-project-170</a
+            >
+          </p>
           <p class="placeholder">Slides (Canva): coming soon.</p>
         </section>
       </main>
