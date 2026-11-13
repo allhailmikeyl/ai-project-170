@@ -1,6 +1,6 @@
 # AI Project 170
 
-This repository contains the source code and project website for **AI Project 170**, a machine learning project that predicts whether the retail price of rice in a Philippine city will increase in the following month using historical rice prices and weather data.
+This repository contains the source code and project website for **AI Project 170**, a machine learning project that predicts whether the retail price of rice in a Philippine city will increase, decrease, or stay the same in the following month using historical rice prices and weather data.
 
 **Course:** CMSC 170 - EF-3L  
 **Group:** Aldrin's Angels
