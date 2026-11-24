@@ -71,7 +71,7 @@ html {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .card, figure.cm, .cm-table td, .pill, .site-nav a::after { transition: none; }
-  .card:hover, .card:focus-within, figure.cm:hover, figure.cm:focus-within, .pill:hover { transform: none; }
+  .card:hover, .card:has(:focus-visible), figure.cm:hover, figure.cm:has(:focus-visible), .pill:hover { transform: none; }
 }
 
 body {
@@ -332,7 +332,7 @@ main section > h2 + h3 { margin-top: 1rem; }   /* a subheading right under the s
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 .card:hover,
-.card:focus-within {
+.card:has(:focus-visible) {
   transform: translateY(-6px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
   border-color: var(--accent);
@@ -541,7 +541,7 @@ figure.cm {
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 figure.cm:hover,
-figure.cm:focus-within {
+figure.cm:has(:focus-visible) {
   transform: translateY(-6px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
   border-color: var(--accent);

@@ -544,10 +544,13 @@ function initNavSpy() {
 
 initNavSpy();
 
-// Member cards: long contribution lists show their first items, and a button shows or hides the rest
+// Member cards: long contribution lists show their first items, and a button opens or closes the rest with a smooth slide
 function initContributions() {
   var SHOWN = 3; // Items that stay visible when the list is collapsed
+  var DURATION = 300; // Length of the slide in milliseconds
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var lists = document.querySelectorAll(".contrib-list");
+
   for (var i = 0; i < lists.length; i++) {
     (function (list) {
       var items = list.querySelectorAll("li");
@@ -560,18 +563,98 @@ function initContributions() {
       button.className = "contrib-toggle";
       list.parentNode.insertBefore(button, list.nextSibling);
 
-      function setOpen(open) {
+      var open = false; // True while the whole list is shown
+      var finishNow = null; // Ends a slide that is still running
+
+      function hideExtras(hidden) { // Hides or shows the items after the first ones
         for (var j = SHOWN; j < items.length; j++) {
-          items[j].hidden = !open;
+          items[j].hidden = hidden;
         }
-        button.setAttribute("aria-expanded", open ? "true" : "false");
-        button.textContent = open ? "Show less" : "Show all";
+      }
+
+      function fadeExtras(visible) { // Fades the extra items in or out while the list slides
+        for (var j = SHOWN; j < items.length; j++) {
+          items[j].style.transition = "opacity " + DURATION + "ms ease";
+          items[j].style.opacity = visible ? "1" : "0";
+        }
+      }
+
+      function clearFade() { // Removes the inline styles of the fade
+        for (var j = SHOWN; j < items.length; j++) {
+          items[j].style.transition = "";
+          items[j].style.opacity = "";
+        }
+      }
+
+      function slide(from, to, onDone) { // Moves the height of the list from one value to the other
+        list.style.overflow = "hidden";
+        list.style.height = from + "px";
+        list.getBoundingClientRect(); // Makes the browser apply the start height before the change
+        list.style.transition = "height " + DURATION + "ms ease";
+        list.style.height = to + "px";
+
+        var finished = false; // True once the slide has been cleaned up
+        var timer = null; // Backup in case the transition never reports that it ended
+        function end() {
+          if (finished) {
+            return;
+          }
+          finished = true;
+          clearTimeout(timer);
+          list.removeEventListener("transitionend", onEnd);
+          list.style.height = "";
+          list.style.overflow = "";
+          list.style.transition = "";
+          finishNow = null;
+          onDone();
+        }
+        function onEnd(event) {
+          if (event.target === list) {
+            end();
+          }
+        }
+        list.addEventListener("transitionend", onEnd);
+        timer = setTimeout(end, DURATION + 100);
+        finishNow = end;
       }
 
       button.addEventListener("click", function () {
-        setOpen(button.getAttribute("aria-expanded") !== "true");
+        if (finishNow) { // A click in the middle of a slide ends it first
+          finishNow();
+        }
+        var from = list.offsetHeight; // Height before the change
+        open = !open;
+        button.setAttribute("aria-expanded", open ? "true" : "false");
+        button.textContent = open ? "Show less" : "Show all";
+
+        if (reduceMotion) { // No slide for people who asked for less motion
+          hideExtras(!open);
+          return;
+        }
+
+        if (open) {
+          hideExtras(false);
+          var full = list.offsetHeight; // Height with every item shown
+          for (var j = SHOWN; j < items.length; j++) {
+            items[j].style.opacity = "0";
+          }
+          slide(from, full, clearFade);
+          fadeExtras(true);
+        } else {
+          hideExtras(true);
+          var short = list.offsetHeight; // Height with only the first items
+          hideExtras(false);
+          slide(from, short, function () {
+            hideExtras(true);
+            clearFade();
+          });
+          fadeExtras(false);
+        }
       });
-      setOpen(false);
+
+      button.setAttribute("aria-expanded", "false");
+      button.textContent = "Show all";
+      hideExtras(true);
     })(lists[i]);
   }
 }
