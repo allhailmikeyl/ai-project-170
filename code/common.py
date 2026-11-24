@@ -287,31 +287,44 @@ def tune_and_test(predict_many, param_grid, split):
     test_result = evaluate(split["test_y"], test_predictions[0])
     return best_params, val_scores, test_result
 
+# Prints one line in the terminal and also remembers it, so the same text can be saved to a file
+def show(lines, text):
+    print(text)
+    lines.append(text)
+
+# Saves everything that was printed as results/<method>_output.txt (readable copy of the terminal output)
+def save_output_text(method_name, lines):
+    os.makedirs(RESULTS_FOLDER, exist_ok=True) # Make the folder if it is missing
+    with open(f"{RESULTS_FOLDER}/{method_name}_output.txt", "w", encoding="utf-8") as outfile:
+        outfile.write("\n".join(lines).lstrip("\n") + "\n")
+
 # Runs one method on all 27 configurations (3 varieties x 3 feature sets x the method), saves and returns the results
 def run_all(method_name, predict_many, param_grid):
     cities = load_dataset(CSV_FILE)
     output = {"method": method_name, "param_grid": param_grid, "varieties": {}} # Everything that gets saved
+    lines = [] # Every line printed below, also saved as results/<method>_output.txt
 
     for variety in VARIETIES: # Each rice variety is modeled separately
         data = prepare_data(cities, variety)
         entry = {"baselines": {}, "feature_sets": {}}
-        print(f"\n=== {method_name} | {variety} ===")
-        print(f"Train rows: {len(data['train'][1])}, test rows: {len(data['test'][1])}") # Fewer than 4658 and 1507 means some rows were skipped
-        print(result_header())
+        show(lines, f"\n=== {method_name} | {variety} ===")
+        show(lines, f"Train rows: {len(data['train'][1])}, test rows: {len(data['test'][1])}") # Fewer than 4658 and 1507 means some rows were skipped
+        show(lines, result_header())
 
         for name, result in run_baselines(data): # Baselines do not depend on the feature set
             entry["baselines"][name] = result
-            print(result_line(name, result))
+            show(lines, result_line(name, result))
 
         for feature_set in FEATURE_SET_NAMES: # Price only, weather only, price + weather
             split = get_split(data, feature_set)
             best_params, val_scores, test_result = tune_and_test(predict_many, param_grid, split)
             entry["feature_sets"][feature_set] = {"best_params": best_params, "val_scores": val_scores, "test": test_result}
-            print(result_line(f"{method_name} ({feature_set})", test_result) + f"  best={best_params}")
+            show(lines, result_line(f"{method_name} ({feature_set})", test_result) + f"  best={best_params}")
 
         output["varieties"][variety] = entry
 
     save_results(method_name, output)
+    save_output_text(method_name, lines)
     return output
 
 # Saves the results of one method as results/<method>.json

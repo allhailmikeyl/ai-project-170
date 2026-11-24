@@ -29,6 +29,10 @@
   --series-1: #2f6b3a;     /* chart colors */
   --series-2: #b7791f;
   --series-3: #2b6f9e;
+  --cm-good: #2f6b3a;      /* confusion matrix: correct */
+  --cm-bad: #b5532a;       /* confusion matrix: wrong */
+  --ref-1: #c2415f;        /* chart baseline lines: majority */
+  --ref-2: #7c5cbf;        /* chart baseline lines: persistence */
 
   color-scheme: light;     /* makes scrollbars and form controls match */
 }
@@ -49,6 +53,10 @@
   --series-1: #7fc98a;
   --series-2: #e6b84a;
   --series-3: #6cb4d9;
+  --cm-good: #7fc98a;
+  --cm-bad: #e8906b;
+  --ref-1: #f0809a;
+  --ref-2: #b39ae8;
 
   color-scheme: dark;
 }
@@ -292,13 +300,22 @@ main li { margin-bottom: 0.4rem; }
 
 /* Reference list: hanging indent, left-aligned so long DOI links do not leave wide gaps */
 .ref { padding-left: 2rem; text-indent: -2rem; text-align: left; }
-main section > h3 { margin-top: 1.6rem; }
+main section > h3 { margin-top: 2.6rem; margin-bottom: 0.6rem; }
+main section > h2 + h3 { margin-top: 1rem; }   /* a subheading right under the section heading needs less room */
 
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   gap: 1rem;
   margin: 1rem 0;
+}
+
+/* Methods: one full-width card per method (method name as a header, description below it, justified) */
+.method-rows { grid-template-columns: 1fr; }
+.method-rows .card h3 { margin: 0 0 0.5rem; }
+.method-rows .card p { margin: 0; }
+@media (min-width: 40rem) {
+  .method-rows .card p { text-align: justify; hyphens: none; }
 }
 
 /* 7. COMPONENTS ---------------------------------------------------------- */
@@ -419,7 +436,7 @@ figure.diagram figcaption {
 .tab:hover { border-color: var(--accent); }
 .tab.is-active { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 
-#results-root h3 { margin-top: 1.6rem; }
+#results-root h3 { margin-top: 2.6rem; margin-bottom: 0.6rem; }
 #results-root h4 { margin: 1.25rem 0 0; font-size: 1rem; }
 .results-note { color: var(--muted); font-size: 0.9rem; }
 .results-table th, .results-table td { white-space: nowrap; }
@@ -443,7 +460,9 @@ details.values summary { cursor: pointer; color: var(--muted); font-size: 0.9rem
 .ch-ring { fill: none; stroke: var(--c); stroke-width: 2; }
 .ch-bar { fill: var(--c); }
 .ch-val { fill: var(--text); font: 600 10px var(--font); text-anchor: middle; stroke: var(--bg); stroke-width: 3px; paint-order: stroke; }
-.ch-ref { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.ch-ref { stroke: var(--muted); stroke-width: 2; stroke-dasharray: 6 4; }
+.ch-ref.r1 { stroke: var(--ref-1); }
+.ch-ref.r2 { stroke: var(--ref-2); }
 .ch-legend {
   list-style: none;
   margin: 0.75rem 0 0.25rem;
@@ -456,6 +475,73 @@ details.values summary { cursor: pointer; color: var(--muted); font-size: 0.9rem
 .ch-legend li { display: flex; align-items: center; gap: 0.4rem; margin: 0; text-align: left; }
 .ch-swatch { width: 0.8rem; height: 0.8rem; border-radius: 3px; background: var(--c); }
 .ch-swatch-ref { width: 1.2rem; height: 0; border-top: 2px dashed var(--muted); }
+.ch-swatch-ref.r1 { border-top-color: var(--ref-1); }
+.ch-swatch-ref.r2 { border-top-color: var(--ref-2); }
+
+/* Results: takeaway line and confusion matrices */
+.takeaway {
+  margin: 1rem 0 0;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--accent-2);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--surface);
+  text-align: left;
+}
+.results-table td.tuned { white-space: normal; min-width: 9rem; }
+
+/* Confusion matrices: one picker, one row of three grids at a time */
+.cm-tabs { margin: 0 0 0.75rem; gap: 0.4rem; }
+.cm-tabs .tab { padding: 0.3rem 0.85rem; font-size: 0.85rem; }
+.cm-panel[hidden] { display: none; }
+.cm-key { display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; align-items: center; margin: 0 0 0.25rem; font-size: 0.85rem; color: var(--muted); }
+.cm-swatch { display: inline-block; width: 0.8rem; height: 0.8rem; margin-right: 0.35rem; border-radius: 3px; vertical-align: -0.1em; }
+.cm-swatch.good { background: var(--cm-good); }
+.cm-swatch.bad { background: var(--cm-bad); }
+.cm-card { margin: 1.5rem 0 0; }   /* Baselines / Methods groups: plain sections, the cards are the grids */
+#results-root .cm-card h4 { margin: 0; }
+.cm-card .results-note { margin: 0.15rem 0 0.75rem; }
+.cm-tabs { justify-content: center; }
+.cm-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem 1.25rem;
+  margin: 0.5rem 0 0;
+}
+figure.cm {
+  flex: 1 1 14rem;
+  max-width: 16rem;
+  margin: 0;
+  padding: 0.75rem 0.6rem 0.8rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+figure.cm figcaption { margin-bottom: 0.35rem; font-size: 0.9rem; font-weight: 600; text-align: center; }
+.cm-table { table-layout: fixed; border-collapse: separate; border-spacing: 3px; font-size: 0.85rem; }
+.cm-table thead td { width: 4.2rem; padding: 0; border: 0; background: none; }
+.cm-table th {
+  padding: 0.2rem;
+  border: 0;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  text-align: center;
+  vertical-align: middle;
+  white-space: normal;
+}
+.cm-table td {
+  padding: 0.55rem 0.25rem;
+  border: 0;
+  border-radius: 0.4rem;
+  text-align: center;
+  vertical-align: middle;
+  color: var(--text);
+  background: color-mix(in srgb, var(--cm-c) var(--mix), var(--surface));
+}
+.cm-table td.good { --cm-c: var(--cm-good); }
+.cm-table td.bad { --cm-c: var(--cm-bad); }
+.cm-table td b { display: block; font-size: 1.05rem; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.cm-table td span { display: block; font-size: 0.72rem; }
 
 /* 8. FOOTER -------------------------------------------------------------- */
 footer {

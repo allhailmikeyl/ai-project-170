@@ -70,7 +70,7 @@ function legend(items, refs) {
     html += '<li class="s' + (i + 1) + '"><span class="ch-swatch"></span>' + items[i] + '</li>';
   }
   for (var r = 0; r < (refs || []).length; r++) {
-    html += '<li><span class="ch-swatch-ref"></span>' + refs[r].name + ' baseline ' + refs[r].value.toFixed(2) + '</li>';
+    html += '<li><span class="ch-swatch-ref r' + (r + 1) + '"></span>' + refs[r].name + ' baseline ' + refs[r].value.toFixed(2) + '</li>';
   }
   return html + '</ul>';
 }
@@ -161,7 +161,7 @@ function barChart(ariaLabel, xTitle, labels, series, refs) {
 
   for (var r = 0; r < refs.length; r++) { // Baselines as dashed lines
     var ry = MT + ph * (1 - refs[r].value);
-    html += '<line class="ch-ref" x1="' + ML + '" x2="' + (CW - MR) + '" y1="' + ry.toFixed(1) + '" y2="' + ry.toFixed(1) + '"/>';
+    html += '<line class="ch-ref r' + (r + 1) + '" x1="' + ML + '" x2="' + (CW - MR) + '" y1="' + ry.toFixed(1) + '" y2="' + ry.toFixed(1) + '"/>';
   }
   return html + '</svg>';
 }
@@ -192,15 +192,13 @@ function resultsTable(variety, keys) {
 
   var html = '<div class="table-scroll"><table class="results-table"><thead><tr><th>Method</th><th>Features</th>' +
              '<th class="num">Accuracy</th><th class="num">Macro-P</th><th class="num">Macro-R</th><th class="num">Macro-F1</th>' +
-             '<th class="num">TP</th><th class="num">FP</th><th class="num">TN</th><th class="num">FN</th>' +
              '<th>Tuned</th></tr></thead><tbody>';
   for (var j = 0; j < rows.length; j++) {
     var r = rows[j].result;
     html += '<tr' + (j === best ? ' class="best-row"' : '') + '><td>' + rows[j].method + '</td><td>' + rows[j].features + '</td>' +
             '<td class="num">' + fmt(r.accuracy) + '</td><td class="num">' + fmt(r.macro_precision) + '</td>' +
             '<td class="num">' + fmt(r.macro_recall) + '</td><td class="num">' + fmt(r.macro_f1) + '</td>' +
-            '<td class="num">' + r.tp + '</td><td class="num">' + r.fp + '</td><td class="num">' + r.tn + '</td>' +
-            '<td class="num">' + r.fn + '</td><td>' + rows[j].tuned + '</td></tr>';
+            '<td class="tuned">' + rows[j].tuned + '</td></tr>';
   }
   return html + '</tbody></table></div>';
 }
@@ -273,6 +271,118 @@ function validationChart(key, variety) {
   return html + '</tbody></table></div></details>';
 }
 
+// Returns one sentence that says how the best model did against the persistence baseline (worked out from the results)
+function takeaway(variety, keys) {
+  var persistence = RESULTS[keys[0]].varieties[variety].baselines["Persistence baseline"].macro_f1;
+  var best = null; // Best model so far as {name, features, f1}
+  var beat = 0; // Number of models that scored above the persistence baseline
+  var count = 0; // Number of models (methods x feature sets)
+
+  for (var m = 0; m < keys.length; m++) {
+    for (var f = 0; f < FEATURE_SETS.length; f++) {
+      var entry = RESULTS[keys[m]].varieties[variety].feature_sets[FEATURE_SETS[f]];
+      if (!entry) {
+        continue;
+      }
+      count++;
+      var f1 = entry.test.macro_f1;
+      if (f1 > persistence) {
+        beat++;
+      }
+      if (best === null || f1 > best.f1) {
+        best = {name: methodName(keys[m]), features: FEATURE_NAMES[FEATURE_SETS[f]].toLowerCase(), f1: f1};
+      }
+    }
+  }
+
+  return '<p class="takeaway"><strong>Best model:</strong> ' + best.name + ' (' + best.features + '), with a macro-F1 of ' + fmt(best.f1) +
+         ', against ' + fmt(persistence) + ' for the persistence baseline (repeating last month’s direction). ' +
+         beat + ' of ' + count + ' model and feature set combinations ' + (beat === 1 ? 'beats' : 'beat') + ' it.</p>';
+}
+
+// Returns one cell of a confusion matrix, its color gets darker as it holds a larger share of its row
+function confusionCell(kind, name, count, rowTotal) {
+  var share = rowTotal === 0 ? 0 : count / rowTotal; // Share of the actual class that ended up here
+  var mix = Math.round(6 + share * 49); // How much of the color is mixed in (kept low so the text stays readable)
+  return '<td class="' + kind + '" style="--mix:' + mix + '%"><b>' + count.toLocaleString("en-US") + '</b><span>' +
+         name + ' · ' + Math.round(share * 100) + '%</span></td>';
+}
+
+// Returns the 2 x 2 confusion matrix of one result with a caption (rows = what happened, columns = what was predicted)
+function confusionFigure(label, r) {
+  var ups = r.tp + r.fn; // Rows that really went up
+  var downs = r.tn + r.fp; // Rows that really did not go up
+  return '<figure class="cm"><figcaption>' + label + '</figcaption>' +
+         '<table class="cm-table" aria-label="' + label + ': TP ' + r.tp + ', FN ' + r.fn + ', FP ' + r.fp + ', TN ' + r.tn + '">' +
+         '<thead><tr><td></td><th scope="col">Predicted up</th><th scope="col">Predicted not up</th></tr></thead><tbody>' +
+         '<tr><th scope="row">Actual up</th>' + confusionCell("good", "TP", r.tp, ups) + confusionCell("bad", "FN", r.fn, ups) + '</tr>' +
+         '<tr><th scope="row">Actual not up</th>' + confusionCell("bad", "FP", r.fp, downs) + confusionCell("good", "TN", r.tn, downs) + '</tr>' +
+         '</tbody></table></figure>';
+}
+
+// Method whose confusion matrices are shown right now (kept when you switch variety)
+var cmSelected = "";
+
+// Returns the confusion matrices of one variety: a card with the baselines, then a card with a picker for the methods
+function confusionSection(variety, keys) {
+  var baselines = RESULTS[keys[0]].varieties[variety].baselines;
+  var baseGrids = ""; // One grid for each baseline
+  for (var name in baselines) {
+    baseGrids += confusionFigure(name, baselines[name]);
+  }
+
+  var selected = keys[0]; // Open the first method unless another one was picked before
+  for (var k = 0; k < keys.length; k++) {
+    if (keys[k] === cmSelected) {
+      selected = cmSelected;
+    }
+  }
+
+  var tabs = '<div class="tabs cm-tabs" role="group" aria-label="Confusion matrices of">';
+  var panels = ""; // The grids of every method (only the picked one is visible)
+  for (var m = 0; m < keys.length; m++) {
+    var on = keys[m] === selected;
+    tabs += '<button class="tab' + (on ? ' is-active' : '') + '" type="button" data-cm="' + keys[m] + '" aria-pressed="' + on + '">' + methodName(keys[m]) + '</button>';
+    panels += '<div class="cm-panel" data-cm="' + keys[m] + '"' + (on ? '' : ' hidden') + '><div class="cm-row">';
+    for (var f = 0; f < FEATURE_SETS.length; f++) {
+      var entry = RESULTS[keys[m]].varieties[variety].feature_sets[FEATURE_SETS[f]];
+      if (entry) {
+        panels += confusionFigure(FEATURE_NAMES[FEATURE_SETS[f]], entry.test);
+      }
+    }
+    panels += '</div></div>';
+  }
+  tabs += '</div>';
+
+  return '<h3>Confusion matrices</h3>' +
+         '<p class="results-note">Each grid counts one model’s predictions on the 2023 test rows. Rows are what actually happened, ' +
+         'columns are what the model predicted, and each percentage is the share of its row.</p>' +
+         '<p class="cm-key"><span><span class="cm-swatch good"></span>Correct (TP, TN)</span> ' +
+         '<span><span class="cm-swatch bad"></span>Wrong (FP, FN)</span></p>' +
+         '<div class="cm-card"><h4>Baselines</h4>' +
+         '<p class="results-note">Simple rules that the methods need to beat.</p>' +
+         '<div class="cm-row">' + baseGrids + '</div></div>' +
+         '<div class="cm-card"><h4>Methods</h4>' +
+         '<p class="results-note">Pick a method to see its three feature sets.</p>' +
+         tabs + panels + '</div>';
+}
+
+// Shows the confusion matrices of one group (a method or the baselines)
+function selectMatrixGroup(id) {
+  cmSelected = id;
+  var root = document.getElementById("results-root");
+  var buttons = root.querySelectorAll(".cm-tabs .tab");
+  for (var i = 0; i < buttons.length; i++) {
+    var active = buttons[i].getAttribute("data-cm") === id;
+    buttons[i].classList.toggle("is-active", active);
+    buttons[i].setAttribute("aria-pressed", active ? "true" : "false");
+  }
+  var panels = root.querySelectorAll(".cm-panel");
+  for (var j = 0; j < panels.length; j++) {
+    panels[j].hidden = panels[j].getAttribute("data-cm") !== id;
+  }
+}
+
 // Returns everything shown for one variety
 function renderVariety(variety) {
   var keys = methodKeys();
@@ -280,11 +390,15 @@ function renderVariety(variety) {
   var total = majority.tp + majority.fp + majority.tn + majority.fn; // Number of test rows
   var up = Math.round((majority.tp + majority.fn) / total * 100); // Share of "up" in the test labels
 
-  var html = '<h3>Test results (2023)</h3>' +
+  var html = takeaway(variety, keys) +
+             '<h3>Test macro-F1 against the baselines</h3>' +
+             '<p class="results-note">Each bar is one model’s macro-F1 on the 2023 test year, and a bar above a dashed line beats that baseline.</p>' +
+             testChart(variety, keys) +
+             '<h3>Test results (2023)</h3>' +
              '<p class="results-note">' + total.toLocaleString("en-US") + ' test rows, ' + up + '% of them “up”. ' +
              'The highest macro-F1 is in bold. “Tuned” is the setting chosen on the 2022 validation year.</p>' +
              resultsTable(variety, keys) +
-             '<h3>Test macro-F1 against the baselines</h3>' + testChart(variety, keys);
+             confusionSection(variety, keys);
 
   var charts = ""; // Validation charts of the methods that were tuned
   for (var m = 0; m < keys.length; m++) {
@@ -294,7 +408,8 @@ function renderVariety(variety) {
   }
   if (charts !== "") {
     html += '<h3>Choosing hyperparameters (validation, 2022)</h3>' +
-            '<p class="results-note">Each point is one setting, and the ring marks the one chosen for the test.</p>' + charts;
+            '<p class="results-note">Each point is the macro-F1 of one setting trained on 2020 to 2021 and scored on 2022, ' +
+            'and the ring marks the one chosen for the test.</p>' + charts;
   }
   return html;
 }
@@ -333,6 +448,13 @@ function init() {
     var button = event.target.closest("button");
     if (button) {
       selectVariety(button.getAttribute("data-variety"));
+    }
+  });
+
+  root.addEventListener("click", function (event) { // Picker of the confusion matrices
+    var button = event.target.closest(".cm-tabs .tab");
+    if (button) {
+      selectMatrixGroup(button.getAttribute("data-cm"));
     }
   });
 
