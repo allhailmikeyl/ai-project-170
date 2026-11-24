@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>[ Insert Title ]</title>
+    <title>You Rice Me Up: Predicting Philippine Rice Price Movements from Weather</title>
     <!-- TITLE ON BAR -->
     <!-- FONTS: Newsreader (headings) and Inter (everything else), from Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,6 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Newsreader:opsz,wght@6..72,600;6..72,700&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" type="image/png" href="images/icon.png" />
     <link rel="stylesheet" href="styles.css" />
 
     <!-- THEME: runs before the page is drawn, so there is no flash of the wrong theme -->
@@ -76,7 +77,7 @@
             <li><a href="#discussion">Discussion</a></li>
             <li><a href="#conclusion">Conclusion</a></li>
             <li><a href="#references">References</a></li>
-            <li><a href="#links">Links</a></li>
+            <li><a href="#members">Members</a></li>
           </ul>
         </nav>
 
@@ -124,7 +125,12 @@
 
       <div class="wrap">
         <p class="kicker">CMSC 170 · Introduction to Artificial Intelligence</p>
-        <h1>[ Insert Title ]</h1>
+        <h1>
+          You Rice Me Up:
+          <span class="title-sub"
+            >Predicting Philippine Rice Price Movements from Weather</span
+          >
+        </h1>
 
         <ul class="members" aria-label="Group members">
           <li>Franchesca Niña Marie M. Alvis</li>
@@ -135,13 +141,6 @@
         <p class="affil">
           Aldrin’s Angels · University of the Philippines Los Baños
         </p>
-
-        <div class="pills">
-          <a class="pill" href="https://github.com/allhailmikeyl/ai-project-170"
-            >Code</a
-          >
-          <a class="pill" href="#links">Slides</a>
-        </div>
 
         <div class="tldr">
           <h2>TL;DR</h2>
@@ -168,16 +167,82 @@
 
         <section id="problem">
           <h2>Problem Statement and Motivation</h2>
-          <p class="placeholder">
-            Coming soon. (Review of related literature goes here.)
+          <p>
+            Rice is a foundational staple food in the Philippines, and
+            fluctuations of its market price directly impact general household
+            food security, farmer livelihoods, and overall economic stability
+            (Cororaton et al., 2018). The domestic price of rice in the country
+            is highly sensitive to the amount of crop supply available. As
+            such, the country’s severe exposure to climate variability and its
+            extreme climatic conditions serve as frequent triggers of price
+            volatility (Nguyen et al., 2024; Stuecker et al., 2018). Considering
+            the agricultural structure and landscape of the country, being able
+            to anticipate such changes serves as a boon not only for farmers
+            and consumers, but also for policymakers and local government
+            units. This presents the gap in being able to assess whether local
+            meteorological conditions can act as a predictive signal for the
+            price movements of rice at the city level.
+          </p>
+          <p>
+            A related issue lies in how the localized nature of both weather
+            events and market dynamics across the archipelago. This results in
+            distinct price spreads caused by different regional yields and
+            market segmentation (Diaz, 2025). The traditional methods used in
+            price forecasting mostly utilize historical price time-series data.
+            While this correctly captures past market momentum, it fails to
+            account for and anticipate incoming supply disruptions caused by
+            changes in the local climate. Although other macroeconomic and
+            agricultural studies discuss the relation between local climate and
+            crop yields, this study seeks to identify whether integrating local
+            monthly weather variables is able to improve directional price
+            prediction compared to traditional models.
+          </p>
+          <p>Specifically, this study aims to:</p>
+          <ol>
+            <li>
+              implement machine learning models capable of predicting the
+              directional movement (increase, decrease) of the price of certain
+              rice varieties;
+            </li>
+            <li>
+              evaluate the prediction accuracy of local monthly meteorological
+              data in directional prediction; and
+            </li>
+            <li>
+              compare the performance of the implemented machine learning
+              architectures in predicting short-term directional price accuracy
+              across different cities and rice varieties.
+            </li>
+          </ol>
+          <p>
+            The significance of the study lies in addressing the gap related to
+            short-term retail price forecasting using localized weather data. By
+            conducting empirical testing of correlation between city-level
+            weather data and the effects it has on prediction power, the study
+            establishes relevant insight for developing improved and more
+            reliable agricultural and economic forecasting tools. Lastly,
+            establishing a model(s) capable of reliably predicting directional
+            changes in rice retail price allows the use of its functions to
+            support and empower the involved members of the community.
           </p>
         </section>
 
         <section id="dataset">
           <h2>Dataset</h2>
           <p>
-            We combine two public datasets, joined by
-            <strong>city and month</strong> for <strong>2020 to 2023</strong>.
+            The dataset used in this project is made of two public datasets that
+            the group combined by <strong>city and month</strong> for
+            <strong>2020 to 2023</strong>: monthly retail prices from PSA
+            OpenSTAT and daily weather data from Kaggle. The combined dataset
+            has <strong>16 columns</strong> and <strong>6,576 data rows</strong>,
+            with records for different cities and months. Its features are the
+            prices of three (3) types of rice, namely regular-milled,
+            well-milled, and special, and nine (9) weather measurements: mean,
+            maximum, and minimum temperature; precipitation amount and hours;
+            maximum wind speed and gusts; shortwave radiation; and FAO
+            evapotranspiration. The target is a label of 1 if a rice variety’s
+            price is higher in the next month and 0 if it is lower or unchanged.
+            Each rice variety is modeled separately.
           </p>
 
           <div class="table-scroll">
@@ -230,9 +295,16 @@
 
           <h3>Preprocessing</h3>
           <p>
-            All preprocessing was done in Google Sheets with formulas that
-            reference the raw price and weather sheets, so every step can be
-            traced back to the source data.
+            In the preprocessing step, the two datasets were aligned by time and
+            location. Daily weather observations were aggregated into monthly
+            measurements to match the monthly rice price data. Moreover, rice
+            prices are reported per province, so each city was assigned the
+            price of the province it belongs to. The result is a dataset of
+            city-month records that pair each city’s monthly weather data with
+            the monthly rice price. All preprocessing was done in Google Sheets
+            with formulas that reference the raw price and weather sheets, so
+            every step can be traced back to the source data. The steps are
+            detailed below.
           </p>
           <ol>
             <li>
@@ -526,25 +598,27 @@
             <article class="card">
               <h3>k-Nearest Neighbors</h3>
               <p>
-                Compares a city-month record with similar records from the
-                training dataset to predict whether the next month's rice price
-                will increase. It uses
+                Predicts whether the next month's rice price will increase or
+                not by comparing a city-month record with similar records from
+                the training dataset. We implemented it using
                 <em>Euclidean distance (Minkowski distance with p = 2)</em> on
-                standardized features to find the <em>k nearest records</em>,
-                then uses <em>majority voting</em> to determine the prediction.
-                The value of <em>k</em> is selected based on the highest
-                validation macro-F1 score.
+                standardized features. It finds the <em>k nearest records</em>
+                and uses <em>majority voting</em> to determine the prediction.
+                We test different values of <em>k</em> and select the one with
+                the highest validation macro-F1 score.
               </p>
             </article>
             <article class="card">
               <h3>Gaussian Naive Bayes</h3>
               <p>
-                Calculates the probability of each possible class to predict
-                whether the next month's rice price will increase. It uses
-                <em>Gaussian distributions</em> to model each feature, assuming
-                that features are <em>independent given the class</em>. The
-                algorithm calculates the <em>class prior probabilities</em>,
-                along with the <em>mean and standard deviation</em> of each
+                A <em>probabilistic classifier</em> that predicts whether the
+                next month's rice price will increase by calculating the
+                probability of each possible class based on the input features.
+                We use <em>Gaussian distributions</em> to model the features,
+                assuming that they are
+                <em>independent of one another given the class</em>. The
+                algorithm calculates the <em>prior probability</em> of each
+                class and the <em>mean and standard deviation</em> of each
                 feature, then compares the <em>log probability scores</em> to
                 determine the predicted class.
               </p>
@@ -552,15 +626,18 @@
             <article class="card">
               <h3>Perceptron</h3>
               <p>
-                Uses a <em>linear classifier</em> with a weighted sum of the
+                A <em>linear classifier</em> that uses a weighted sum of the
                 input features and a <em>bias term</em> to predict whether the
-                next month's rice price will increase. A
-                <em>threshold function</em> determines the predicted class.
-                Whenever a record is misclassified, the weights are updated
-                based on the difference between the actual and predicted output.
-                We use a <em>learning rate of 1.0</em>, shuffle the training
-                rows each epoch using a fixed seed of <em>170</em>, and select
-                the number of epochs based on validation macro-F1.
+                next month's rice price will increase. It uses a
+                <em>threshold function</em> to classify the result. Whenever a
+                record is misclassified, the weights are updated using the
+                <em>learning rate</em> and the difference between the actual and
+                predicted output. The weights start at zero, and the training
+                rows are shuffled each epoch using a fixed seed of
+                <em>170</em>. We try learning rates of 0.001, 0.01, and 0.1 and
+                epoch limits of 10, 50, and 100, and select the setting with the
+                best validation macro-F1. Training stops at the epoch limit, or
+                earlier if an epoch has no mistakes.
               </p>
             </article>
           </div>
@@ -685,7 +762,7 @@
                   <td>
                     Learning rate = 0.001, 0.01, 0.1; epoch limit = 10, 50, 100
                   </td>
-                  <td>Weights start at 0; rows in dataset order</td>
+                  <td>Weights start at 0; rows shuffled each epoch (seed 170)</td>
                 </tr>
               </tbody>
             </table>
@@ -730,18 +807,151 @@
 
         <section id="references">
           <h2>References</h2>
-          <p class="placeholder">Coming soon.</p>
-        </section>
-
-        <section id="links">
-          <h2>Repository and slides</h2>
-          <p>
-            Code:
-            <a href="https://github.com/allhailmikeyl/ai-project-170"
-              >github.com/allhailmikeyl/ai-project-170</a
+          <p class="ref">
+            Cororaton, C., Tiongco, M., Inocencio, A., Siriban-Manalang, A. B.,
+            &amp; Lamberte, A. (2018). Climate change, food availability, and
+            poverty: the case of Philippine rice.
+            <em>DLSU Business &amp; Economics Review, 28</em>(0).
+            <a href="https://doi.org/10.59588/2243-786x.1553"
+              >https://doi.org/10.59588/2243-786x.1553</a
             >
           </p>
-          <p class="placeholder">Slides (Canva): coming soon.</p>
+          <p class="ref">
+            Diaz, R. (2025). Price transmission and market segmentation in the
+            Philippine rice: A correlational analysis of regional yields and
+            quality-based price spreads.
+            <em>Research on World Agricultural Economy</em>.
+            <a href="https://doi.org/10.36956/rwae.v6i3.1887"
+              >https://doi.org/10.36956/rwae.v6i3.1887</a
+            >
+          </p>
+          <p class="ref">
+            Nguyen, H., Randall, M., &amp; Lewis, A. (2024). Factors affecting
+            crop prices in the context of climate change—A review.
+            <em>Agriculture, 14</em>(1), 135.
+            <a href="https://doi.org/10.3390/agriculture14010135"
+              >https://doi.org/10.3390/agriculture14010135</a
+            >
+          </p>
+          <p class="ref">
+            Stuecker, M. F., Tigchelaar, M., &amp; Kantar, M. B. (2018). Climate
+            variability impacts on rice production in the Philippines.
+            <em>PLoS ONE, 13</em>(8), e0201426.
+            <a href="https://doi.org/10.1371/journal.pone.0201426"
+              >https://doi.org/10.1371/journal.pone.0201426</a
+            >
+          </p>
+        </section>
+
+        <section id="members">
+          <h2>Members and Contributions</h2>
+          <div class="team-grid">
+            <article class="card team-card">
+              <div class="team-photo">
+                FA
+                <img
+                  src="images/alvis.jpg"
+                  alt="Franchesca Niña Marie M. Alvis"
+                  width="88"
+                  height="88"
+                  loading="lazy"
+                  onerror="this.remove()"
+                />
+              </div>
+              <div class="team-info">
+                <h3>Franchesca Niña Marie M. Alvis</h3>
+                <!-- TODO: replace these with this member's entries from the task log -->
+                <ul>
+                  <li class="placeholder">Contribution 1</li>
+                  <li class="placeholder">Contribution 2</li>
+                  <li class="placeholder">Contribution 3</li>
+                </ul>
+              </div>
+            </article>
+            <article class="card team-card">
+              <div class="team-photo">
+                YB
+                <img
+                  src="images/belonio.jpg"
+                  alt="Yvonne Mari C. Belonio"
+                  width="88"
+                  height="88"
+                  loading="lazy"
+                  onerror="this.remove()"
+                />
+              </div>
+              <div class="team-info">
+                <h3>Yvonne Mari C. Belonio</h3>
+                <!-- TODO: replace these with this member's entries from the task log -->
+                <ul>
+                  <li class="placeholder">Contribution 1</li>
+                  <li class="placeholder">Contribution 2</li>
+                  <li class="placeholder">Contribution 3</li>
+                </ul>
+              </div>
+            </article>
+            <article class="card team-card">
+              <div class="team-photo">
+                NB
+                <img
+                  src="images/bulatao.jpg"
+                  alt="Nestor Victus T. Bulatao"
+                  width="88"
+                  height="88"
+                  loading="lazy"
+                  onerror="this.remove()"
+                />
+              </div>
+              <div class="team-info">
+                <h3>Nestor Victus T. Bulatao</h3>
+                <!-- TODO: replace these with this member's entries from the task log -->
+                <ul>
+                  <li class="placeholder">Contribution 1</li>
+                  <li class="placeholder">Contribution 2</li>
+                  <li class="placeholder">Contribution 3</li>
+                </ul>
+              </div>
+            </article>
+            <article class="card team-card">
+              <div class="team-photo">
+                MP
+                <img
+                  src="images/perlas.jpg"
+                  alt="Mikhail Adrian Jude S. Perlas"
+                  width="88"
+                  height="88"
+                  loading="lazy"
+                  onerror="this.remove()"
+                />
+              </div>
+              <div class="team-info">
+                <h3>Mikhail Adrian Jude S. Perlas</h3>
+                <!-- TODO: replace these with this member's entries from the task log -->
+                <ul>
+                  <li class="placeholder">Contribution 1</li>
+                  <li class="placeholder">Contribution 2</li>
+                  <li class="placeholder">Contribution 3</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+          <div class="repo-cta">
+            <p>The code for all three methods and the saved results is on GitHub.</p>
+            <a
+              class="pill pill-icon"
+              href="https://github.com/allhailmikeyl/ai-project-170"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+              View on GitHub
+            </a>
+            <p class="repo-path">github.com/allhailmikeyl/ai-project-170</p>
+          </div>
         </section>
       </main>
 
