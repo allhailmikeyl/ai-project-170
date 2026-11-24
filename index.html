@@ -797,6 +797,32 @@
 
         <section id="discussion">
           <h2>Discussion</h2>
+          <h3>k-Nearest Neighbors</h3>
+          <p>
+            kNN did not beat the persistence baseline in any configuration. Its
+            test macro-F1 stayed between 0.450 and 0.460, compared with 0.498
+            to 0.517 for persistence, and adding weather changed it by less
+            than 0.01. The tuning results also point to a weak signal. With
+            weather features, <em>k</em> = 1 was usually chosen and validation
+            scores fell as <em>k</em> grew, which means averaging more
+            weather-similar months did not help. The test results were lowered
+            further by a shift in class balance, since “up” made up 43 to 48%
+            of the training labels but 68 to 74% of the 2023 labels (Lipton et
+            al., 2018). kNN followed the training majority and predicted “up”
+            too rarely (only 27% of the well-milled price-only test rows), so
+            it missed most of the actual rises. In the price-plus-weather set,
+            nine of the eleven features are weather, which can also weaken the
+            distance calculation when features carry little information
+            (Halder et al., 2024).
+          </p>
+
+          <h3>Gaussian Naive Bayes</h3>
+          <p class="placeholder">Coming soon.</p>
+
+          <h3>Perceptron</h3>
+          <p class="placeholder">Coming soon.</p>
+
+          <h3>Synthesis and Limitations</h3>
           <p class="placeholder">Coming soon.</p>
         </section>
 
@@ -823,6 +849,26 @@
             <em>Research on World Agricultural Economy</em>.
             <a href="https://doi.org/10.36956/rwae.v6i3.1887"
               >https://doi.org/10.36956/rwae.v6i3.1887</a
+            >
+          </p>
+          <p class="ref">
+            Halder, R. K., Uddin, M. N., Uddin, M. A., Aryal, S., &amp;
+            Khraisat, A. (2024). Enhancing K-nearest neighbor algorithm: A
+            comprehensive review and performance analysis of modifications.
+            <em>Journal of Big Data, 11</em>, 113.
+            <a href="https://doi.org/10.1186/s40537-024-00973-y"
+              >https://doi.org/10.1186/s40537-024-00973-y</a
+            >
+          </p>
+          <p class="ref">
+            Lipton, Z., Wang, Y.-X., &amp; Smola, A. (2018). Detecting and
+            correcting for label shift with black box predictors.
+            <em
+              >Proceedings of the 35th International Conference on Machine
+              Learning, PMLR 80</em
+            >, 3122–3130.
+            <a href="https://proceedings.mlr.press/v80/lipton18a.html"
+              >https://proceedings.mlr.press/v80/lipton18a.html</a
             >
           </p>
           <p class="ref">
@@ -968,11 +1014,7 @@
               target="_blank"
               rel="noopener"
             >
-              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                <path
-                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
-                />
-              </svg>
+              <span class="icon-github" aria-hidden="true"></span>
               View on GitHub
             </a>
             <p class="repo-path">github.com/allhailmikeyl/ai-project-170</p>
