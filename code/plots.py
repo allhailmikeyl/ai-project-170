@@ -1,6 +1,6 @@
 # Aldrin's Angels
 # CMSC 170 - EF-3L
-# Project: You Rice Me Up: (Subtitle)
+# Project: You Rice Me Up: Predicting Philippine Rice Price Movements from Weather
 # File: plots.py (draws the charts from results/<method>.json, matplotlib is used here only)
 
 import matplotlib.pyplot as plt # Draws the charts

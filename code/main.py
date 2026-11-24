@@ -1,6 +1,6 @@
 # Aldrin's Angels
 # CMSC 170 - EF-3L
-# Project: You Rice Me Up: (Subtitle)
+# Project: You Rice Me Up: Predicting Philippine Rice Price Movements from Weather
 # File: main.py (runs the methods one after the other, then draws the charts)
 # Run from the project folder with: python code/main.py (everything) or python code/main.py knn (only the methods you name)
 

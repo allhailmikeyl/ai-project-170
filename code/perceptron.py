@@ -4,7 +4,7 @@
 
 # Aldrin's Angels
 # CMSC 170 - EF-3L
-# Project: You Rice Me Up: (Subtitle)
+# Project: You Rice Me Up: Predicting Philippine Rice Price Movements from Weather
 # File: perceptron.py (Perceptron, adapted from Exercise 08)
 
 import random # For shuffling the training order each epoch

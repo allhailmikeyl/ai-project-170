@@ -5,7 +5,7 @@
 
 # Aldrin's Angels
 # CMSC 170 - EF-3L
-# Project: You Rice Me Up: (Subtitle)
+# Project: You Rice Me Up: Predicting Philippine Rice Price Movements from Weather
 # File: common.py (shared by all methods, so every method uses the same data, split, tuning, and scoring)
 
 import csv # Reads the CSV file

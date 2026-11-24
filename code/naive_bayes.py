@@ -5,7 +5,7 @@
 
 # Aldrin's Angels
 # CMSC 170 - EF-3L
-# Project: You Rice Me Up: (Subtitle)
+# Project: You Rice Me Up: Predicting Philippine Rice Price Movements from Weather
 # File: naive_bayes.py (Gaussian Naive Bayes, adapted from Exercise 04)
 
 import common # Shared data, split, tuning, and scoring

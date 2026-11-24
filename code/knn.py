@@ -5,7 +5,7 @@
 
 # Aldrin's Angels
 # CMSC 170 - EF-3L
-# Project: You Rice Me Up: (Subtitle)
+# Project: You Rice Me Up: Predicting Philippine Rice Price Movements from Weather
 # File: knn.py (K-Nearest Neighbors, adapted from Exercise 06)
 
 import common # Shared data, split, tuning, and scoring
