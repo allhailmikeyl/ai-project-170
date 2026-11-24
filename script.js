@@ -543,3 +543,37 @@ function initNavSpy() {
 }
 
 initNavSpy();
+
+// Member cards: long contribution lists show their first items, and a button shows or hides the rest
+function initContributions() {
+  var SHOWN = 3; // Items that stay visible when the list is collapsed
+  var lists = document.querySelectorAll(".contrib-list");
+  for (var i = 0; i < lists.length; i++) {
+    (function (list) {
+      var items = list.querySelectorAll("li");
+      if (items.length <= SHOWN) { // Short list, nothing to hide
+        return;
+      }
+
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "contrib-toggle";
+      list.parentNode.insertBefore(button, list.nextSibling);
+
+      function setOpen(open) {
+        for (var j = SHOWN; j < items.length; j++) {
+          items[j].hidden = !open;
+        }
+        button.setAttribute("aria-expanded", open ? "true" : "false");
+        button.textContent = open ? "Show less" : "Show all";
+      }
+
+      button.addEventListener("click", function () {
+        setOpen(button.getAttribute("aria-expanded") !== "true");
+      });
+      setOpen(false);
+    })(lists[i]);
+  }
+}
+
+initContributions();

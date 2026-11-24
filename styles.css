@@ -70,8 +70,8 @@ html {
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .card, .pill, .site-nav a::after { transition: none; }
-  .card:hover, .card:focus-within, .pill:hover { transform: none; }
+  .card, figure.cm, .cm-table td, .pill, .site-nav a::after { transition: none; }
+  .card:hover, .card:focus-within, figure.cm:hover, figure.cm:focus-within, .pill:hover { transform: none; }
 }
 
 body {
@@ -372,13 +372,15 @@ figure.diagram figcaption {
 .team-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.25rem;
+  gap: 1rem;
   margin: 1.25rem 0 0;
 }
-.team-card {
+.team-card { padding: 1.1rem 1rem; }
+.team-head {   /* photo on the left, name and email next to it; the contributions go below, from the left edge */
   display: flex;
-  align-items: flex-start;
-  gap: 1.1rem;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 0.9rem;
 }
 .team-photo {
   position: relative;
@@ -406,9 +408,27 @@ figure.diagram figcaption {
   object-fit: cover;
 }
 .team-info { min-width: 0; }
-.team-info h3 { font-size: 1.15rem; margin-bottom: 0.45rem; }
-.team-info ul { margin: 0; padding-left: 1.1rem; font-size: 0.92rem; }
-.team-info li { margin: 0.25rem 0; text-align: left; }
+.team-info h3 { font-size: 1.3rem; margin-bottom: 0.3rem; }
+.team-info h3 .given,
+.team-info h3 .surname { display: block; }
+.team-info h3 .given { white-space: nowrap; }   /* every name sits on two lines: given names, then surname */
+.team-email { display: inline-block; font-size: 0.88rem; color: var(--muted); overflow-wrap: anywhere; }
+.team-email:hover { color: var(--accent); }
+.team-card ul { margin: 0; padding-left: 1.2rem; font-size: 0.92rem; }
+.team-card li { margin: 0.25rem 0; text-align: left; }
+/* "Show all / Show less" button under a long contribution list (added by script.js) */
+.contrib-toggle {
+  margin: 0.4rem 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: 600 0.92rem var(--font);
+  cursor: pointer;
+}
+.contrib-toggle:hover { text-decoration: underline; }
+.contrib-toggle::after { content: "\25BE"; margin-left: 0.35rem; }                    /* ▾ */
+.contrib-toggle[aria-expanded="true"]::after { content: "\25B4"; }                    /* ▴ */
 
 /* Repository button (centered, with the GitHub icon) */
 .repo-cta { margin-top: 2.25rem; text-align: center; }
@@ -517,6 +537,15 @@ figure.cm {
   border: 1px solid var(--line);
   border-radius: var(--radius);
 }
+figure.cm {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+figure.cm:hover,
+figure.cm:focus-within {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  border-color: var(--accent);
+}
 figure.cm figcaption { margin-bottom: 0.35rem; font-size: 0.9rem; font-weight: 600; text-align: center; }
 .cm-table { table-layout: fixed; border-collapse: separate; border-spacing: 3px; font-size: 0.85rem; }
 .cm-table thead td { width: 4.2rem; padding: 0; border: 0; background: none; }
@@ -540,6 +569,11 @@ figure.cm figcaption { margin-bottom: 0.35rem; font-size: 0.9rem; font-weight: 6
 }
 .cm-table td.good { --cm-c: var(--cm-good); }
 .cm-table td.bad { --cm-c: var(--cm-bad); }
+.cm-table td { transition: filter 0.2s ease, box-shadow 0.2s ease; }
+.cm-table td:hover {   /* a hovered square lights up with a ring in its own color */
+  filter: brightness(1.2) saturate(1.15);
+  box-shadow: 0 0 0 2px var(--cm-c);
+}
 .cm-table td b { display: block; font-size: 1.05rem; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .cm-table td span { display: block; font-size: 0.72rem; }
 
@@ -554,11 +588,11 @@ footer {
 }
 
 /* 9. RESPONSIVE ---------------------------------------------------------- */
-@media (max-width: 48rem) {
+@media (max-width: 52rem) {
   .team-grid { grid-template-columns: 1fr; }   /* member cards stack */
 }
 @media (max-width: 26rem) {
-  .team-card { flex-direction: column; }       /* photo above the contributions */
+  .team-head { flex-direction: column; align-items: flex-start; }   /* photo above the name */
 }
 @media (max-width: 40rem) {
   .brand { display: none; }
